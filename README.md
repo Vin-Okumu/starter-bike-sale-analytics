@@ -176,7 +176,7 @@ Page 2: Product Performance
 
 - By subcategory, the Downhill brand contributed most toward the revenue generated, contributing up to$49,400 in revenue generated in Q1 of 2023.
 
-- As expected, Mountain bikes were the most sought after type of bike, aking it the most profitable for the business, generating $28,397 in gross profits in that period. 
+- As expected, Mountain bikes were the most sought after type of bike, aking it the most profitable for the business, generating $47,817 in gross profits in that period. 
 ---------------------------------------------------------------------------------------------
 
 <h2 align = "center"> 
