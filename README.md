@@ -1,210 +1,105 @@
-<h1 align = "center"> 
-Starter Bike LLC Sales Analytics <br>
-Dashboard
-</h1>
+# Bike Retailer Sales Dashboard (Power BI)
 
-<p align = "center">
-<img src = "08_Images/Cover/Project_Cover.png" width = "1000" height = "300">
+**A 4-page Power BI dashboard for a bike retailer that showed revenue up 36% year on year, and traced 99% of lost order value ($96K) to a single product line: Road Bikes.**
+
+<p align="center">
+  <img src="08_Images/Dashboard/Executive_Overview.png" width="900" alt="Executive Overview page of the Power BI dashboard">
 </p>
 
-# Repository Structure
+| Revenue (Q1 2023) | Growth vs Q1 2022 | Gross profit | Order value lost to cancellations | Of that, from Road Bikes |
+|:---:|:---:|:---:|:---:|:---:|
+| **$337.6K** | **+36.5%** | **$103.2K** (30.6% margin) | **$97.5K** (22% of all orders) | **99%** |
 
-    Bike-Sales-PowerBI-Project/
+**Tools:** Power BI · Power Query · DAX · Excel
 
-    │
-    ├── 01 Project Charter/
-    │   └── project_charter.md
-    │
-    ├── 02 Business Requirements/
-    │   └── business_requirement_document.pdf
-    │
-    ├── 03 Documentation/
-    │   ├── Business Questions.md
-    │   ├── Data Cleaning Report.md
-    │   ├── Data Dictionary.md
-    │   └── Insights.md
-    │
-    ├── 04 Data/
-    │   └── data_audit/
-    │       ├── data_audit_report.md
-    │       ├── data_profile_summary.pdf
-    │       └── data_quality_checklist.md
-    │  
-    │   ├── processed/
-    │   └── raw/
-    │       └── Quarter-One-Report-Workbook.xlsx
-    │
-    ├── 05 Reports/
-    │   ├── Bike Sales Dashboard.pbix
-    │   └── 
-    │
-    ├── 06 Power Query/
-    │
-    ├── 07 DAX/
-    │   ├── Calculations.md
-    │   └── Measures.md
-    │
-    ├── 08 Images/
-    │
-    ├── LICENSE
-    │
-    └── README.md
+---
 
+## 1. The problem
 
-# Background
+> *"We have two years of first-quarter sales sitting in a spreadsheet, but every time leadership asks which products make us money, why orders get cancelled, or how much tax we owe, someone has to build the report by hand. We need one dashboard that answers those questions in seconds, and that will keep working as we grow."*
 
-Starter Bike LLC, a fictional bicycle retailer, is looking to obtain insights from its Q1 operations over the past years. Company executives believe that data from the 2022 and 2023 Q1 sales can provide some critical insights into how the company performs during the first quarter of each financial year. 
+Starter Bike LLC (a fictional retailer) needed a single place to track revenue drivers, product profitability, order fulfilment and tax liability.
 
-They believe that, with proper analytics, the company can efficiently track essential performance indicators, including, but not limited to, product performance, profitability, tax liabilities, and operational efficiency, which can then inspire the company to optimize sales operations and improve revenue generation. 
+## 2. The data
 
-The 2022 and 2023 Q1 sales operation data has been successfully consolidated and readily available. However, despite having operational data readily available, the management still lacks a centralized reporting solution that transforms this raw information into meaningful business insights.
+| | |
+|---|---|
+| **Source** | Internal sales system export ([`Quarter-One-Sales-Workbook.xlsx`](04_Data/Quarter-One-Sales-Workbook.xlsx)) |
+| **Size** | 245 order lines × 15 fields (plus 6 calculated columns) |
+| **Time range** | Q1 2022 (Jan–Mar) and Q1 2023 (Jan–Mar) |
+| **Contents** | Product, category and subcategory, wholesale and retail price, quantity, payment method, order status, customer and order IDs |
 
-In seeking a working solution, company executives have asked for an analytical dashboard that will aid in decision-making by cutting the time decision-makers would spend compiling reports manually. The underlying need is to make it simpler to identify revenue drivers, evaluate product performance, monitor operational efficiency, and estimate tax obligations. 
+Audit result: no missing values, no duplicate orders, no invalid prices or quantities ([audit report](04_Data/data_audit_report.md)).
 
-The executives forsee that as the business is destined to scale, manual reporting will soon become increasingly inefficient particularly since it's prone to error.
+## 3. Approach
 
-## Project Objective
+1. **Scoping.** Wrote a [project charter](01_Project_Charter/project_charter.md) and [business requirements](02_Business_Requirements/business_requirement_document.md), and turned them into [40+ business questions](03_Documentation/Business%20Questions.md) grouped by theme.
+2. **Data audit and cleaning.** Profiled every field, checked data types, duplicates and invalid values ([cleaning report](03_Documentation/Data%20Cleaning%20Report.md), [data dictionary](03_Documentation/Data%20Dictionary.md)).
+3. **Transformation in Power Query.** Added Revenue, Profit, Tax Due (5% on order lines above $2,000), Customer Bill and Tax Proportion columns ([ETL log](05_Reports/ETL%20log.md)).
+4. **Modelling in DAX.** Built 18 measures, including revenue net of cancellations, fulfilment rates, average order value and taxable-sales share ([measures](07_DAX/Measures.md)).
+5. **Dashboard design.** Four report pages (Executive Overview, Product Performance, Operational Performance, Tax Obligation), with slicers for year, month, category and payment method.
 
-This project aims to transform the company's transactional sales data into an interactive Business Intelligence solution using Microsoft Power BI.
+## 4. Results
 
+**Growth.** Q1 revenue rose from $247.3K (2022) to **$337.6K (2023), up 36.5%**. Gross profit rose 35.5% to $103.2K, and margin held steady at about 31%. Paying customers grew from 28 to 42.
 
-# Business Problem
+**One category drives half the business.** Mountain Bikes brought in **$164.2K, 49% of revenue**, and the most profit ($47.8K). Mountain and Touring Bikes together made up 74% of revenue. The best-selling model was EnduroMaster 1000 ($27.6K).
 
-Starter Bike LLC, has generated sales every day but lacks visibility into its overall business performance.
+**Cancellations are concentrated in one product line.** 46% of Road Bike order lines were cancelled, while every other major category had none. Road Bikes accounted for **$96.3K of the $97.5K** in cancelled order value. Road Bikes were also the only cancelled category in Q1 2022, so this is a recurring problem rather than a one-off.
 
-Company executives say it still takes effort to answer critical operational questions such as:
+**PayPal customers spend more.** Credit cards were used by 60% of customers, but PayPal brought in more revenue ($177.5K vs $160.1K). PayPal order lines were worth 41% more on average ($3,227 vs $2,287).
 
-- Which products contribute the most to revenue?
-- Which product categories are the most profitable?
-- How much tax liability does the business incur?
-- Which products trigger the highest tax expense?
-- How are sales changing over time?
-- Which orders are successfully completed versus cancelled?
-- Where are operational inefficiencies occurring?
+**Tax.** Total tax due for Q1 2023 was **$13,915**, about 4.1% of revenue.
 
-Without these insights, company executives believe there is a relatively substantial risk of making decisions based on assumptions rather than evidence.
-
-# Project Goal
-
-This project is designed to provide an interactive Power BI dashboard that can enable Starter Bike LLC executives to monitor sales performance, product performance, operational efficiency, and tax obligations to support evidence-based business decision-making.
-
-The dashboard is, therefore, intended to enable management to monitor:
-
-## Sales Performance
-- Total revenue generated.
-- Sales trends over time.
-- Order value.
-- Order volumes.
-
-## Product Performance
-- Top-performing products.
-- Similarities and differences in product categories.
-- Product profitability.
-- Product contribution to total revenue.
-
-## Operational Performance
-- Order status distribution.
-- Risk of order cancellation.
-- Operational efficiency.
-- Products with high risk of cancellation.
-
-## Tax Analysis
-- Tax liability.
-- Tax contribution by product and category.
-
-# Executive Reporting
-
-Provide an interactive dashboard allowing executives to filter results by:
-
-- Year, Month or Date
-- Product Category
-- Order Status
-
-<h1 align = "left"> 
-Power BI Report Interface
-</h1>
-
-<h2 align = "center"> 
-Page 1: Executive Overview
-</h2>
-
-<p align = "center">
-<img src = "08_Images/Dashboard/Executive_Overview.png" width = "1000" height = "450">
+<p align="center">
+  <img src="08_Images/Dashboard/OPerational_Performance.png" width="900" alt="Operational Performance page showing order status by category">
 </p>
 
-### Key Findings:
+<details>
+<summary><b>See the other two dashboard pages</b></summary>
+<br>
 
-- In the first quarter of 2023, Sarter Bike LLC sold a total of 178 bikes, earning a total of $337,600 in revenue and $133,560 in gross profit.
+**Product Performance**: revenue and profit by category, subcategory and model
+<p align="center"><img src="08_Images/Dashboard/Product_Performance.png" width="900" alt="Product Performance page"></p>
 
-    - The business realized a significant increase in revenue between February and March with January - February reporting a drop in revenue generated.
+**Tax Obligation**: taxable sales, tax due by month and category (screenshot filtered to PayPal orders)
+<p align="center"><img src="08_Images/Dashboard/Tax_Obligation.png" width="900" alt="Tax Obligation page"></p>
 
-    - Q1 of 2023 resulted in $13,915 in tax liability
+</details>
 
-- By category, mountain bikes drive the majority of financial value for the business, followed closely by touring bikes and road bikes respectively    
+## 5. Recommendations
 
-    - Mountain bikes contributed up to $164,800 in revenue generated in Q1 of 2023
+1. **Investigate Road Bike cancellations first.** Almost all lost revenue comes from them. Check stock availability, delivery lead times and pricing on Road Bike models. Recovering half of the cancelled value would add about $48K a quarter.
+2. **Protect the Mountain Bike line.** Half of revenue depends on it, so prioritise its stock levels and supplier terms ahead of Q1.
+3. **Lean into PayPal.** PayPal buyers place larger orders. Featuring PayPal at checkout, or targeting promotions at those customers, could raise average order value.
+4. **Review the smaller categories.** BMX, Kids and Hybrid Bikes have the highest margins (40%) but contribute under 3% of revenue. Decide whether to grow them or cut them back.
+5. **Make the dashboard the monthly reporting pack.** It replaces manual reporting and scales as new quarters are added.
 
-    - Touring bikes came a distant second, contributing $84,000 in revenue, and
+---
 
-    - Road bikes accounted for $46,000 in revenue, 
+## How to run
 
-- March saw an increae in shipped products, after relatively realizing no change in shipped products between January and February.
+**Requirements:** [Power BI Desktop](https://powerbi.microsoft.com/desktop/) (free, Windows).
 
-- The rate of cancelled orders increased steadily between January and March.
----------------------------------------------------------------------------------------------
+1. Clone or download this repository.
+2. Open [`05_Reports/starter-bike-sales-analytics-dashboard.pbix`](05_Reports/starter-bike-sales-analytics-dashboard.pbix).
+3. If prompted, go to **Transform data → Data source settings** and point the source to `04_Data/Quarter-One-Sales-Workbook.xlsx` on your machine, then click **Refresh**.
 
-<h2 align = "center"> 
-Page 2: Product Performance
-</h2>
+### Repository structure
 
-<p align = "center">
-<img src = "08_Images/Dashboard/Product_Performance.png" width = "1000" height = "450">
-</p>
+```
+starter-bike-sale-analytics/
+├── 01_Project_Charter/        Scope, objectives, stakeholders
+├── 02_Business_Requirements/  Business requirements document
+├── 03_Documentation/          Business questions, data dictionary, cleaning report
+├── 04_Data/                   Raw workbook + data audit and quality checks
+├── 05_Reports/                Power BI file (.pbix) + ETL log
+├── 07_DAX/                    DAX measures and calculated columns
+├── 08_Images/                 Dashboard screenshots
+├── LICENSE
+└── README.md
+```
 
-### Key Findings:
-- Mountain bikes, Turing bikes, Road bikes, E-bikes and Hybrid bikes constituted the top 5 performing categories in Q1 of 2023.
+---
 
-    - Mountain bikes accounted for $164,200 in revenue.
-
-    - Touring bikes accounted for $84,800 in revenue
-
-    - Road bikes accounted for $46,500 in revenue
-
-    - E-bikes contributed $33,200 in revenue, and
-
-    - Hybrid bikes contributed $7,800 in revenue 
-
-- By subcategory, the Downhill brand contributed most toward the revenue generated, contributing up to$49,400 in revenue generated in Q1 of 2023.
-
-- As expected, Mountain bikes were the most sought after type of bike, aking it the most profitable for the business, generating $47,817 in gross profits in that period. 
----------------------------------------------------------------------------------------------
-
-<h2 align = "center"> 
-Page 3: Operational Performance
-</h2>
-
-<p align = "center">
-<img src = "08_Images/Dashboard/OPerational_Performance.png" width = "1000" height = "450">
-</p>
-
-### Key Findings:
-- Customers paid for most of their orders using credit cards, accounting for more than 60% of payments made.
-
-- Performance-wise, orders for Road bikes were cancelled more than any other category, with up to 49% of placed orders ending up being cancelled.
------------------------------------------------------------------------------------------------
-
-<h2 align = "center"> 
-Page 4: Tax_Obligation
-</h2>
-
-<p align = "center">
-<img src = "08_Images/Dashboard/Tax_Obligation.png" width = "1000" height = "450">
-</p>
-
-### Key Findings:
-- In 2023, 39 orders were taxable as per the tax obligation rule afforded the business.
-
-- The 39 taxable products translated in 70.9% of taxable sales made in Q1 of 2023, leading to a total of $7,755 in tax due
-
-- Starter Bike LLC's tax proportion relative to revenue generated in 2023 dropped by 0.23%, ending in 4.25% by March.
------------------------------------------------------------------------------------------
+*Built by Vincent Okumu · Data Analyst · Available for Power BI, Excel and Python analytics projects.*
