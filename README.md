@@ -1,10 +1,14 @@
+<h1 align ="center">
+Bike Retailer Sales Dashboard (Power BI)
+</h1>
+
 <p align="center">
   <img src="08_Images/Cover/Project_Cover.png" width="1000" alt="Starter Bike LLC sales analytics dashboard cover">
 </p>
 
-# Bike Retailer Sales Dashboard (Power BI)
-
-**A 4-page Power BI dashboard for a bike retailer that showed revenue up 36% year on year, and traced 99% of lost order value ($96K) to a single product line: Road Bikes.**
+<p align="center">
+<b> A 4-page Power BI dashboard for a bike retailer that showed revenue up 36% year on year, and traced 99% of lost order value ($96K) to a single product line: Road Bikes.</b>
+</p>
 
 | Revenue (Q1 2023) | Growth vs Q1 2022 | Gross profit | Order value lost to cancellations | Of that, from Road Bikes |
 |:---:|:---:|:---:|:---:|:---:|
@@ -106,4 +110,6 @@ starter-bike-sale-analytics/
 
 ---
 
-*Built by Vincent Okumu · Data Analyst · Available for Power BI, Excel and Python analytics projects.*
+**Have a similar project on your hands?** Invite to work on [Upwork](https://www.upwork.com/freelancers/uv23o9) · Reach out via [LinkedIn](https://www.linkedin.com/in/vince-okumu23/) · Or email me at vinny.otieno23@gmail.com
+
+**Vincent Okumu**
