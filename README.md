@@ -1,5 +1,5 @@
 <h1 align ="center">
-Bike Retailer Sales Dashboard (Power BI)
+Bike Retailer Sales Analytics
 </h1>
 
 <p align="center">
@@ -20,7 +20,7 @@ Bike Retailer Sales Dashboard (Power BI)
 
 ## 1. The problem
 
-> *"We have two years of first-quarter sales sitting in a spreadsheet, but every time leadership asks which products make us money, why orders get cancelled, or how much tax we owe, someone has to build the report by hand. We need one dashboard that answers those questions in seconds, and that will keep working as we grow."*
+> *"Client had two years of first-quarter sales sitting in a spreadsheet, but every time leadership asked which products made them money, why orders got cancelled, or how much tax was owed, someone had to build the report by hand. Client needed one dashboard that answered those questions in seconds, and that would keep working as they grow."*
 
 Starter Bike LLC (a fictional retailer) needed a single place to track revenue drivers, product profitability, order fulfilment and tax liability.
 
@@ -110,6 +110,6 @@ starter-bike-sale-analytics/
 
 ---
 
-**Have a similar project on your hands?** Invite to work on [Upwork](https://www.upwork.com/freelancers/uv23o9) · Reach out via [LinkedIn](https://www.linkedin.com/in/vince-okumu23/) · Or email me at vinny.otieno23@gmail.com
+**Have a similar problem on your hands?** Invite to work on [Upwork](https://www.upwork.com/freelancers/uv23o9) · Reach out via [LinkedIn](https://www.linkedin.com/in/vince-okumu23/) · Or email me at vinny.otieno23@gmail.com
 
 **Vincent Okumu**
