@@ -1,10 +1,10 @@
+<p align="center">
+  <img src="08_Images/Cover/Project_Cover.png" width="1000" alt="Starter Bike LLC sales analytics dashboard cover">
+</p>
+
 # Bike Retailer Sales Dashboard (Power BI)
 
 **A 4-page Power BI dashboard for a bike retailer that showed revenue up 36% year on year, and traced 99% of lost order value ($96K) to a single product line: Road Bikes.**
-
-<p align="center">
-  <img src="08_Images/Dashboard/Executive_Overview.png" width="900" alt="Executive Overview page of the Power BI dashboard">
-</p>
 
 | Revenue (Q1 2023) | Growth vs Q1 2022 | Gross profit | Order value lost to cancellations | Of that, from Road Bikes |
 |:---:|:---:|:---:|:---:|:---:|
@@ -50,6 +50,10 @@ Audit result: no missing values, no duplicate orders, no invalid prices or quant
 **PayPal customers spend more.** Credit cards were used by 60% of customers, but PayPal brought in more revenue ($177.5K vs $160.1K). PayPal order lines were worth 41% more on average ($3,227 vs $2,287).
 
 **Tax.** Total tax due for Q1 2023 was **$13,915**, about 4.1% of revenue.
+
+<p align="center">
+  <img src="08_Images/Dashboard/Executive_Overview.png" width="900" alt="Executive Overview page of the Power BI dashboard">
+</p>
 
 <p align="center">
   <img src="08_Images/Dashboard/OPerational_Performance.png" width="900" alt="Operational Performance page showing order status by category">
