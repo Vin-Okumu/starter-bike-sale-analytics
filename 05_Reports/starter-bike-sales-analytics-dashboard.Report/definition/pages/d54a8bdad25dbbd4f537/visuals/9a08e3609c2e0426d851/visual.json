@@ -1,0 +1,65 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "9a08e3609c2e0426d851",
+  "position": {
+    "x": 19.6846638694294,
+    "y": 10.599434391231215,
+    "z": 6001,
+    "height": 63.596606347387294,
+    "width": 375.52281843219163,
+    "tabOrder": 6001
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "TAX OBLIGATION",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontFamily": "Cambria Math",
+                      "fontSize": "24pt",
+                      "color": "#bbe1fd"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#054678'"
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "75D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

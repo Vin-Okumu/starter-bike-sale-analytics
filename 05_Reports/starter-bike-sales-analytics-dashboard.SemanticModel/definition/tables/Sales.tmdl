@@ -1,0 +1,235 @@
+table Sales
+	lineageTag: b0991acb-4d93-459f-9e0f-28e13a871ff7
+
+	measure 'Sum of Order Quantity total for Order Status' =
+			
+			CALCULATE(SUM('Sales'[Order Quantity]), ALLSELECTED('Sales'[Order Status]))
+		formatString: 0
+		lineageTag: 4410d5a3-84ac-4d67-8896-e3206f144f4a
+
+		extendedProperty MeasureTemplate =
+				{
+				  "version": 0,
+				  "daxTemplateName": "TotalForSelectedCategory"
+				}
+
+		changedProperty = FormatString
+
+	column 'Product ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: 972f58ac-2313-49b5-a7fc-2f8040bf6ecd
+		summarizeBy: count
+		sourceColumn: Product ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product Category '
+		dataType: string
+		lineageTag: 0e2bad83-efe7-4152-992b-871ddc211c86
+		summarizeBy: none
+		sourceColumn: "Product Category "
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product Subcategory'
+		dataType: string
+		lineageTag: a9ae71de-e120-49e0-9338-9ebe80ce5195
+		summarizeBy: none
+		sourceColumn: Product Subcategory
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product Name'
+		dataType: string
+		lineageTag: ce9e5d03-eea7-46c9-8898-f59be2b492ec
+		summarizeBy: none
+		sourceColumn: Product Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Order Date'
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 29fb09ee-f933-4d61-9fe3-1b9947dac4c8
+		summarizeBy: none
+		sourceColumn: Order Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Wholesale Price'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: f794bd06-c26d-4c9a-ba7b-942155b501cf
+		summarizeBy: sum
+		sourceColumn: Wholesale Price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Retail Price'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 6ffb9a76-41ab-406a-9064-586d4ce5d230
+		summarizeBy: sum
+		sourceColumn: Retail Price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Order Quantity'
+		dataType: int64
+		formatString: 0
+		lineageTag: caa01091-f01c-411e-9ad9-9b6800e4c967
+		summarizeBy: sum
+		sourceColumn: Order Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Payment Method'
+		dataType: string
+		lineageTag: e9dbd0b5-82da-41cf-88a1-1c16c5fbdf0c
+		summarizeBy: none
+		sourceColumn: Payment Method
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Order Status'
+		dataType: string
+		lineageTag: ec0f1c87-6706-4c53-a4e8-132647e6adc4
+		summarizeBy: none
+		sourceColumn: Order Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Order ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: 3818adab-a164-4031-b0d4-b9db33780a91
+		summarizeBy: count
+		sourceColumn: Order ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Customer ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: fb2853e8-b52c-4409-8a75-e8219ab80d73
+		summarizeBy: count
+		sourceColumn: Customer ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product Description'
+		dataType: string
+		lineageTag: 6a2e4b2a-a9e1-4dd6-b029-f6065f33129f
+		summarizeBy: none
+		sourceColumn: Product Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product Size'
+		dataType: string
+		lineageTag: ddc0d2a2-09b1-4071-b012-ddf109ed7517
+		summarizeBy: none
+		sourceColumn: Product Size
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product Weight'
+		dataType: int64
+		formatString: 0
+		lineageTag: 3cd1008a-c641-4e0c-8183-34b072b0c59b
+		summarizeBy: sum
+		sourceColumn: Product Weight
+
+		annotation SummarizationSetBy = Automatic
+
+	column Revenue =
+			IF(
+			    NOT('Sales'[Order Status] = "Cancelled"),
+			    'Sales'[Retail Price] * 'Sales'[Order Quantity],0)
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 28a4c735-3691-4696-8077-55ac1f9a8d15
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Tax Due' = ```
+			IF(
+			    'Sales'[Revenue] > 2000, 
+			    'Sales'[Revenue] * 0.05, 0 )
+			```
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 7d85134c-495a-4d30-88b1-cf648bd4eaba
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Customer Bill' = ```
+			'Sales'[Revenue] + 
+			'Sales'[Tax Due]
+			```
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: f55f5ce3-4bf4-43fa-b224-dd2d89a0011f
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column Profit =
+			IF(
+			    NOT('Sales'[Order Status] = "Cancelled"),
+			    (('Sales'[Retail Price] -
+			    'Sales'[Wholesale Price]) * 'Sales'[Order Quantity]),0)
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: daf34465-4fab-482b-a997-879df0faf252
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Order Value' = 'Sales'[Retail Price] * 'Sales'[Order Quantity]
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 2aca0600-2a98-4e62-86bd-322f9bf74088
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Tax Proportion' =
+			DIVIDE(
+			    [Tax Due],[Revenue]
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: a47bdd36-00ff-495d-bc5e-6e3fe58e5080
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Sales = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\admin\Documents\Projects\bike-sale-powerBI-project\data\raw\Quarter-One-Workbook-Raw.xlsx"), null, true),
+				    Sales_Sheet = Source{[Item="Sales",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Sales_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Product ID", Int64.Type}, {"Product Category ", type text}, {"Product Subcategory", type text}, {"Product Name", type text}, {"Order Date", type date}, {"Wholesale Price", Currency.Type}, {"Retail Price", Currency.Type}, {"Order Quantity", Int64.Type}, {"Payment Method", type text}, {"Order Status", type text}, {"Order ID", Int64.Type}, {"Customer ID", Int64.Type}, {"Product Description", type text}, {"Product Size", type text}, {"Product Weight", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

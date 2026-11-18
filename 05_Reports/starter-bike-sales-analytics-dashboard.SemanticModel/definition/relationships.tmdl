@@ -1,0 +1,9 @@
+relationship cdfaab3f-e51f-4c23-a039-6fd863446d4a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Date.Date
+	toColumn: LocalDateTable_119eb964-5b30-4b4e-9c03-b66e2f54ec7e.Date
+
+relationship 12f48b16-958a-3b6c-3511-fd8a38f11932
+	fromColumn: Sales.'Order Date'
+	toColumn: Date.Date
+

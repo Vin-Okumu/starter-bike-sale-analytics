@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "starter-bike-sales-analytics-dashboard"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "4165f576-2fe8-449f-a34a-fbd33cf9ca00"
+  }
+}
