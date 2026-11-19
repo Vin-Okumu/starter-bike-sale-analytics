@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "0c7df0328bed8c008b94",
   "position": {
-    "x": 20,
-    "y": 192,
+    "x": 20.831973553158576,
+    "y": 192.69575536671684,
     "z": 24000,
-    "height": 248,
-    "width": 740,
+    "height": 246.51168704570983,
+    "width": 664.88715590497793,
     "tabOrder": 24000
   },
   "visual": {
@@ -369,7 +369,7 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
                 }
               }
             },
@@ -561,8 +561,13 @@
             },
             "text": {
               "expr": {
-                "Literal": {
-                  "Value": "'Monthly revenue, excluding cancelled orders · blue = selected year, dashed grey = prior year'"
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "Subtitle Revenue Trend"
                 }
               }
             },
@@ -623,5 +628,51 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "69ff210628001d9d70a3",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Date"
+              }
+            },
+            "Property": "Month"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "403735567035b703e967",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "Revenue PY"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "17bc17030128e7d23c16",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "Total Revenue"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

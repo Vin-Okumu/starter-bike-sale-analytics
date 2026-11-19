@@ -789,7 +789,7 @@ table Measure
 			RETURN
 			    SWITCH (
 			        TRUE (),
-			        ISBLANK ( py ), bestMonth & " was the best month at " & IF ( ABS ( bestValue ) >= 1000, FORMAT ( bestValue / 1000, "$#,0.0" ) & "K", FORMAT ( bestValue, "$#,0" ) ) & " (no prior-year data to compare)",
+			        ISBLANK ( py ), bestMonth & " was the best month in 2022 at " & IF ( ABS ( bestValue ) >= 1000, FORMAT ( bestValue / 1000, "$#,0.0" ) & "K", FORMAT ( bestValue, "$#,0" ) ) ,
 			        beatAll, "Revenue beat " & [Prior Period Label] & " in every month; " & bestMonth & " peaked at " & IF ( ABS ( bestValue ) >= 1000, FORMAT ( bestValue / 1000, "$#,0.0" ) & "K", FORMAT ( bestValue, "$#,0" ) ),
 			        "Revenue " & IF ( chg >= 0, "up ", "down " ) & FORMAT ( ABS ( chg ), "0.0%" ) & " vs " & [Prior Period Label] & "; " & bestMonth & " was the best month at " & IF ( ABS ( bestValue ) >= 1000, FORMAT ( bestValue / 1000, "$#,0.0" ) & "K", FORMAT ( bestValue, "$#,0" ) )
 			    )
@@ -826,7 +826,7 @@ table Measure
 	measure 'Title Top Model' =
 			VAR p = [Top Model]
 			VAR v = [Top Model Revenue]
-			RETURN p & " is the top model at " & IF ( ABS ( v ) >= 1000, FORMAT ( v / 1000, "$#,0.0" ) & "K", FORMAT ( v, "$#,0" ) )
+			RETURN p & " is the top performing model at " & IF ( ABS ( v ) >= 1000, FORMAT ( v / 1000, "$#,0.0" ) & "K", FORMAT ( v, "$#,0" ) )
 		displayFolder: 6 Titles
 		lineageTag: 790c9861-abdc-5785-8ee8-55dd80bd881f
 
@@ -997,15 +997,31 @@ table Measure
 		lineageTag: fc78f63f-780d-5e61-a2ff-193eaaf301c4
 
 	measure 'Title Margin Leaders' =
+			
 			VAR avgM = [Gross Margin %]
-			VAR leaders = FILTER ( VALUES ( Sales[Product Category] ), [Total Revenue] > 0 && [Gross Margin %] >= avgM + 0.05 )
-			VAR names = CONCATENATEX ( leaders, Sales[Product Category], ", ", [Total Revenue], DESC )
-			VAR share = DIVIDE ( SUMX ( leaders, [Total Revenue] ), [Total Revenue] )
-			VAR minM = MINX ( leaders, [Gross Margin %] )
+			VAR leaders =
+			    ADDCOLUMNS (
+			        FILTER (
+			            VALUES ( Sales[Product Category] ),
+			            [Total Revenue] > 0 && [Gross Margin %] >= avgM + 0.05
+			        ),
+			        "@n", SUBSTITUTE ( SUBSTITUTE ( Sales[Product Category], " Bikes", "" ), "Bmx", "BMX" ),
+			        "@r", [Total Revenue],
+			        "@m", [Gross Margin %]
+			    )
+			VAR k = COUNTROWS ( leaders )
+			VAR ranked = ADDCOLUMNS ( leaders, "@i", RANKX ( leaders, [@r], , DESC, Skip ) )
+			VAR firstNames = CONCATENATEX ( FILTER ( ranked, [@i] < k ), [@n], ", ", [@r], DESC )
+			VAR lastName = MAXX ( FILTER ( ranked, [@i] = k ), [@n] )
+			VAR names = IF ( k = 1, lastName, firstNames & " and " & lastName )
+			VAR minM = MINX ( leaders, [@m] )
+			VAR maxM = MAXX ( leaders, [@m] )
+			VAR mText = IF ( ROUND ( minM, 2 ) = ROUND ( maxM, 2 ), FORMAT ( minM, "0%" ), FORMAT ( minM, "0%" ) & "–" & FORMAT ( maxM, "0%" ) )
+			VAR share = DIVIDE ( SUMX ( leaders, [@r] ), [Total Revenue] )
 			RETURN
 			    IF (
-			        COUNTROWS ( leaders ) > 0,
-			        names & " earn " & FORMAT ( minM, "0%" ) & "+ margins on " & FORMAT ( share, "0.0%" ) & " of revenue",
+			        k > 0,
+			        names & " Bikes earn " & mText & " margins but only " & FORMAT ( share, "0.0%" ) & " of revenue",
 			        "Margins are similar across categories"
 			    )
 		displayFolder: 6 Titles
@@ -1058,23 +1074,26 @@ table Measure
 
 	/// Row background: top revenue category light blue.
 	measure 'Bg Top Category' =
+			
 			VAR topC = CALCULATE ( [Top Category], ALLSELECTED ( Sales[Product Category] ) )
 			RETURN IF ( SELECTEDVALUE ( Sales[Product Category] ) = topC, "#EFF6FF", "#FFFFFF" )
 		displayFolder: 7 Formatting
 		lineageTag: fb0bdd81-613f-5d24-9dcc-6cb1d1042696
 
 	measure 'Text Top Category' =
+			
 			VAR topC = CALCULATE ( [Top Category], ALLSELECTED ( Sales[Product Category] ) )
 			RETURN IF ( SELECTEDVALUE ( Sales[Product Category] ) = topC, "#1D4ED8", "#374151" )
 		displayFolder: 7 Formatting
 		lineageTag: 81ccd6c4-f663-5ce5-9410-8fd5851ae873
 
 	measure 'Bg Margin Leaders' =
+			
 			VAR avgM = CALCULATE ( [Gross Margin %], ALLSELECTED ( Sales[Product Category] ) )
 			RETURN
-			    SWITCH (
-			        TRUE (),
-			        HASONEVALUE ( Sales[Product Category] ) && [Gross Margin %] >= avgM + 0.05, "#DBEAFE",
+			    IF (
+			        HASONEVALUE ( Sales[Product Category] ) && [Gross Margin %] >= avgM + 0.05,
+			        "#DBEAFE",
 			        [Bg Top Category]
 			    )
 		displayFolder: 7 Formatting
@@ -1111,25 +1130,266 @@ table Measure
 		lineageTag: 55cde627-b762-5f95-a130-27474a38139a
 
 	measure 'Text Margin Leaders' =
+			
 			VAR avgM = CALCULATE ( [Gross Margin %], ALLSELECTED ( Sales[Product Category] ) )
-			RETURN IF ( HASONEVALUE ( Sales[Product Category] ) && [Gross Margin %] >= avgM + 0.05, "#1D4ED8", [Text Top Category] )
+			RETURN
+			    IF (
+			        HASONEVALUE ( Sales[Product Category] ) && [Gross Margin %] >= avgM + 0.05,
+			        "#1D4ED8",
+			        [Text Top Category]
+			    )
 		displayFolder: 7 Formatting
 		lineageTag: 1b7e18f8-9d6f-5844-b5ad-2c9e61f5af93
 
 	/// Biggest lines = categories with at least 5% of revenue.
 	measure 'Title Category Table' =
-			VAR big = FILTER ( VALUES ( Sales[Product Category] ), [Category Revenue Share] >= 0.05 )
+			
+			VAR t =
+			    ADDCOLUMNS (
+			        FILTER ( VALUES ( Sales[Product Category] ), [Total Revenue] > 0 ),
+			        "@s", [Category Revenue Share],
+			        "@m", [Gross Margin %]
+			    )
+			VAR big = FILTER ( t, [@s] >= 0.05 )
+			VAR small = FILTER ( t, [@s] < 0.05 )
 			VAR n = COUNTROWS ( big )
-			VAR lo = MINX ( big, [Gross Margin %] )
-			VAR hi = MAXX ( big, [Gross Margin %] )
+			VAR lo = MINX ( big, [@m] )
+			VAR hi = MAXX ( big, [@m] )
+			VAR smallTop = MAXX ( small, [@m] )
+			VAR word = SWITCH ( n, 1, "one", 2, "two", 3, "three", 4, "four", 5, "five", 6, "six", 7, "seven", n & "" )
+			VAR bigText = "The " & word & " big lines all sit at " & FORMAT ( lo * 100, "0" ) & "–" & FORMAT ( hi, "0%" ) & " margin"
 			RETURN
 			    IF (
-			        n > 1,
-			        "The " & n & " biggest lines all earn " & FORMAT ( lo, "0%" ) & "–" & FORMAT ( hi, "0%" ) & " margin; " & [Top Category] & " leads revenue",
-			        [Top Category] & " leads revenue"
+			        NOT ISBLANK ( smallTop ) && smallTop > hi,
+			        bigText & "; only the small lines reach " & FORMAT ( smallTop, "0%" ),
+			        bigText
 			    )
 		displayFolder: 6 Titles
 		lineageTag: 5dfcd593-f1b0-53fa-a537-6e3c67cff368
+
+	measure 'Subtitle Revenue Trend' =
+			
+			VAR base = "Monthly revenue, excluding cancelled orders"
+			RETURN
+			    IF (
+			        ISBLANK ( [Revenue PY] ),
+			        base,
+			        base & " · blue = Q1 2023, dashed grey = Q1 2022"
+			    )
+		displayFolder: 6 Titles
+		lineageTag: 72b17371-22c4-4f74-b88e-c0c2901bcad6
+
+	measure 'Subtitle Category Revenue' =
+			
+			"Revenue by category, Q1 " & SELECTEDVALUE ( 'Date'[Year] ) & ", sorted"
+		displayFolder: 6 Titles
+		lineageTag: d684949f-cc85-4777-bb82-5fc1fee62ee3
+
+	measure 'Label Color Top Category' =
+			
+			VAR topC = CALCULATE ( [Top Category], ALLSELECTED ( Sales[Product Category] ) )
+			RETURN
+			    IF ( SELECTEDVALUE ( Sales[Product Category] ) = topC, "#1D4ED8", "#374151" )
+		displayFolder: 7 Formatting
+		lineageTag: 771fd719-1b68-45d1-a713-d44527c2ed16
+
+	measure 'Label Category Revenue' =
+			
+			VAR v = [Total Revenue]
+			VAR topC = CALCULATE ( [Top Category], ALLSELECTED ( Sales[Product Category] ) )
+			VAR txt = IF ( v >= 1000, FORMAT ( v / 1000, "$#,0.0" ) & "K", FORMAT ( v, "$#,0" ) )
+			RETURN
+			    IF (
+			        SELECTEDVALUE ( Sales[Product Category] ) = topC,
+			        txt & " · " & FORMAT ( [Category Revenue Share], "0%" ),
+			        txt
+			    )
+		displayFolder: 7 Formatting
+		lineageTag: b3e4eec2-bcd2-4dab-b4db-d6dffe96b0cd
+
+	measure 'Subtitle Cancellations' =
+			
+			"Value of cancelled order lines by category, Q1 "
+			    & SELECTEDVALUE ( 'Date'[Year] )
+			    & " · hover a bar for the models involved"
+		displayFolder: 6 Titles
+		lineageTag: 24270722-17d1-4676-b126-602995dd7b21
+
+	measure 'Tooltip Cancelled Models' =
+			
+			VAR t =
+			    FILTER (
+			        ADDCOLUMNS ( VALUES ( Sales[Product Name] ), "@v", [Cancelled Value] ),
+			        [@v] > 0
+			    )
+			RETURN
+			    CONCATENATEX (
+			        t,
+			        Sales[Product Name] & ": "
+			            & IF ( [@v] >= 1000, FORMAT ( [@v] / 1000, "$#,0.0" ) & "K", FORMAT ( [@v], "$#,0" ) ),
+			        UNICHAR ( 10 ),
+			        [@v], DESC
+			    )
+		displayFolder: 2 Comparisons
+		lineageTag: de6ecc19-10a8-4eac-a7f3-5b41b62a2806
+
+	measure 'Label Cancelled Value' =
+			
+			VAR v = [Cancelled Value]
+			VAR topC =
+			    CALCULATE ( [Top Cancel Category], ALLSELECTED ( Sales[Product Category] ) )
+			VAR total =
+			    CALCULATE ( [Cancelled Value], ALLSELECTED ( Sales[Product Category] ) )
+			VAR txt =
+			    IF ( v >= 1000, FORMAT ( v / 1000, "$#,0.0" ) & "K", FORMAT ( v, "$#,0" ) )
+			RETURN
+			    IF (
+			        SELECTEDVALUE ( Sales[Product Category] ) = topC,
+			        txt & " · " & FORMAT ( DIVIDE ( v, total ), "0%" ) & " of value lost",
+			        txt
+			    )
+		displayFolder: 7 Formatting
+		lineageTag: 6897a68f-fd39-4c48-a58f-b2dd0876d4d6
+
+	measure 'Label Color Top Cancel Category' =
+			
+			VAR topC =
+			    CALCULATE ( [Top Cancel Category], ALLSELECTED ( Sales[Product Category] ) )
+			RETURN
+			    IF ( SELECTEDVALUE ( Sales[Product Category] ) = topC, "#B91C1C", "#374151" )
+		displayFolder: 7 Formatting
+		lineageTag: e237902d-201c-46be-8fb1-0ece1a6fd3ed
+
+	measure 'Axis Max Cancelled Value' =
+			
+			VAR mx =
+			    MAXX ( ALLSELECTED ( Sales[Product Category] ), [Cancelled Value] )
+			RETURN
+			    mx * 1.6
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: d60aedae-d0eb-44f2-9b00-84f69ee6536c
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Action Cancellations' =
+			
+			VAR c = CALCULATE ( [Top Cancel Category], ALLSELECTED ( Sales[Product Category] ) )
+			VAR v = CALCULATE ( [Cancelled Value], Sales[Product Category] = c )
+			VAR n =
+			    COUNTROWS (
+			        FILTER (
+			            VALUES ( Sales[Product Name] ),
+			            CALCULATE ( [Cancelled Value], Sales[Product Category] = c ) > 0
+			        )
+			    )
+			VAR recover = v / 2
+			RETURN
+			    IF (
+			        ISBLANK ( c ),
+			        "1. No orders were cancelled in this period.",
+			        "1. Fix " & c & " cancellations. Check stock, lead times and pricing on the "
+			            & n & " models involved. Recovering half the lost value adds about "
+			            & IF ( recover >= 1000, FORMAT ( recover / 1000, "$#,0.0" ) & "K", FORMAT ( recover, "$#,0" ) )
+			            & " a quarter."
+			    )
+		displayFolder: 1 Core
+		lineageTag: 1b24cbd4-3df7-4ca1-b9a6-011189f55dd9
+
+	measure 'Action Top Category' =
+			
+			VAR c = CALCULATE ( [Top Category], ALLSELECTED ( Sales[Product Category] ) )
+			VAR s = CALCULATE ( [Top Category Share], ALLSELECTED ( Sales[Product Category] ) )
+			RETURN
+			    "2. Protect " & c & " stock. It brings in " & FORMAT ( s, "0%" ) & " of revenue."
+		displayFolder: 1 Core
+		lineageTag: 541f8b18-1378-484b-bb13-2083a5da64fd
+
+	measure 'Action Payment' =
+			
+			VAR t =
+			    CALCULATETABLE (
+			        ADDCOLUMNS ( VALUES ( Sales[Payment Method] ), "@a", [Avg Line Value] ),
+			        REMOVEFILTERS ( Sales[Payment Method] )
+			    )
+			VAR best = MAXX ( TOPN ( 1, t, [@a], DESC ), Sales[Payment Method] )
+			VAR bestV = MAXX ( TOPN ( 1, t, [@a], DESC ), [@a] )
+			VAR other = MAXX ( TOPN ( 1, t, [@a], ASC ), Sales[Payment Method] )
+			VAR otherV = MAXX ( TOPN ( 1, t, [@a], ASC ), [@a] )
+			RETURN
+			    "3. Feature " & best & " at checkout. Its order lines are "
+			        & FORMAT ( DIVIDE ( bestV - otherV, otherV ), "0%" ) & " larger than "
+			        & other & " lines (" & FORMAT ( bestV, "$#,0" ) & " vs " & FORMAT ( otherV, "$#,0" ) & ")."
+		displayFolder: 1 Core
+		lineageTag: 4a7635ec-3107-42b5-9243-d437f41768d0
+
+	measure 'Subtitle Margin Scatter' =
+			
+			"Revenue vs gross margin by category, Q1 " & SELECTEDVALUE ( 'Date'[Year] ) & " · each dot is one category"
+		displayFolder: 6 Titles
+		lineageTag: 02728358-99b3-48ea-994c-08d14e2d7695
+
+	measure 'Avg Margin Line' =
+			
+			CALCULATE ( [Gross Margin %], ALLSELECTED ( Sales[Product Category] ) )
+		lineageTag: 217e6d0c-6a82-4f84-9c8e-4146041fd15c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Axis Max Revenue Scatter' =
+			
+			MAXX ( ALLSELECTED ( Sales[Product Category] ), [Total Revenue] ) * 1.1
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 572c3a06-5d73-40ec-987e-b96aecb2397d
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Axis Min Margin Scatter' =
+			
+			VAR lo = MINX ( ALLSELECTED ( Sales[Product Category] ), [Gross Margin %] )
+			RETURN FLOOR ( lo - 0.03, 0.05 )
+		lineageTag: 3e884b36-d292-475f-96aa-366b6095b728
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Axis Max Margin Scatter' =
+			
+			VAR hi = MAXX ( ALLSELECTED ( Sales[Product Category] ), [Gross Margin %] )
+			RETURN CEILING ( hi + 0.03, 0.05 )
+		lineageTag: 6b8494e3-88f1-47b2-afaa-0ecc9c8e7433
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Subtitle Top Models' =
+			
+			"Top 10 models by revenue, Q1 " & SELECTEDVALUE ( 'Date'[Year] )
+		displayFolder: 6 Titles
+		lineageTag: 59fe3aff-33ef-4f6d-b499-e4563a2ee4ff
+
+	measure 'Label Color Top Model' =
+			
+			VAR topP = CALCULATE ( [Top Model], ALLSELECTED ( Sales[Product Name] ) )
+			RETURN IF ( SELECTEDVALUE ( Sales[Product Name] ) = topP, "#1D4ED8", "#374151" )
+		displayFolder: 7 Formatting
+		lineageTag: ab377c24-7b69-48dc-8ead-f4118e1c9bec
+
+	measure 'Top 10 Model Revenue' =
+			
+			VAR r =
+			    RANKX ( ALLSELECTED ( Sales[Product Name] ), [Total Revenue], , DESC, Dense )
+			RETURN IF ( r <= 10, [Total Revenue] )
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		displayFolder: 2 Comparisons
+		lineageTag: 420be2f2-bf6d-4944-9997-56439ac92347
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Axis Max Top Models' =
+			
+			MAXX ( ALLSELECTED ( Sales[Product Name] ), [Total Revenue] ) * 1.2
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 80150b67-8ab4-4cd4-9c13-25951e793060
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	partition Measure = m
 		mode: import

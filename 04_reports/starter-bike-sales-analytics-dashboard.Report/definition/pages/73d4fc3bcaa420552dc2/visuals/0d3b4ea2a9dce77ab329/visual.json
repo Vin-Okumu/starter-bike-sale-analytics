@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "0d3b4ea2a9dce77ab329",
   "position": {
-    "x": 20,
-    "y": 452,
+    "x": 20.831973553158576,
+    "y": 451.35942698510252,
     "z": 26000,
-    "height": 226,
-    "width": 740,
+    "height": 227.4157112886478,
+    "width": 664.88715590497793,
     "tabOrder": 26000
   },
   "visual": {
@@ -30,6 +30,24 @@
               "nativeQueryRef": "Category",
               "active": true,
               "displayName": "Category"
+            }
+          ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "Tooltip Cancelled Models"
+                }
+              },
+              "queryRef": "Measure.Tooltip Cancelled Models",
+              "nativeQueryRef": "Tooltip Cancelled Models"
             }
           ]
         },
@@ -115,17 +133,6 @@
                 }
               }
             },
-            "color": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#374151'"
-                    }
-                  }
-                }
-              }
-            },
             "fontSize": {
               "expr": {
                 "Literal": {
@@ -146,7 +153,76 @@
                   "Value": "1L"
                 }
               }
+            },
+            "labelPosition": {
+              "expr": {
+                "Literal": {
+                  "Value": "'OutsideEnd'"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
             }
+          }
+        },
+        {
+          "properties": {
+            "dynamicLabelValue": {
+              "expr": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "Label Cancelled Value"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "highlightMatching": 1
+          }
+        },
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Measure"
+                        }
+                      },
+                      "Property": "Label Color Top Cancel Category"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ]
           }
         }
       ],
@@ -171,6 +247,18 @@
               "expr": {
                 "Literal": {
                   "Value": "false"
+                }
+              }
+            },
+            "end": {
+              "expr": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "Axis Max Cancelled Value"
                 }
               }
             }
@@ -209,6 +297,13 @@
               "expr": {
                 "Literal": {
                   "Value": "false"
+                }
+              }
+            },
+            "innerPadding": {
+              "expr": {
+                "Literal": {
+                  "Value": "40L"
                 }
               }
             }
@@ -374,8 +469,13 @@
             },
             "text": {
               "expr": {
-                "Literal": {
-                  "Value": "'Value of cancelled order lines by category · see the Orders page for the models involved'"
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "Subtitle Cancellations"
                 }
               }
             },
@@ -436,5 +536,51 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "452ddf8c1951063a319e",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Sales"
+              }
+            },
+            "Property": "Product Category"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "db7ebbe0644819c8d421",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "Cancelled Value"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "9ec18de847096a062941",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "Tooltip Cancelled Models"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

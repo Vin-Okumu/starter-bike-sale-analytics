@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "f340410c4776182e84eb",
   "position": {
-    "x": 772,
-    "y": 452,
+    "x": 698.04846490822717,
+    "y": 451.23306408384315,
     "z": 27000,
-    "height": 226,
-    "width": 488,
+    "height": 227.4157112886478,
+    "width": 562.46328593528153,
     "tabOrder": 27000
   },
   "visual": {
@@ -21,9 +21,9 @@
                   {
                     "value": "What to do next",
                     "textStyle": {
-                      "fontSize": "11pt",
-                      "color": "#111827",
-                      "fontWeight": "bold"
+                      "fontWeight": "bold",
+                      "fontSize": "16pt",
+                      "color": "#1d4ed8"
                     }
                   }
                 ]
@@ -31,18 +31,24 @@
               {
                 "textRuns": [
                   {
-                    "value": "1. Fix Road Bike cancellations.",
-                    "textStyle": {
-                      "fontSize": "9pt",
-                      "color": "#111827",
-                      "fontWeight": "bold"
-                    }
-                  },
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
                   {
-                    "value": " Check stock, lead times and pricing on the five models involved. Recovering half the lost value adds about $48K a quarter.",
+                    "value": {
+                      "propertyIdentifier": {
+                        "objectName": "values",
+                        "propertyName": "expr"
+                      },
+                      "selector": {
+                        "id": "Action Cancellations"
+                      }
+                    },
                     "textStyle": {
-                      "fontSize": "9pt",
-                      "color": "#374151"
+                      "fontSize": "12pt"
                     }
                   }
                 ]
@@ -50,18 +56,24 @@
               {
                 "textRuns": [
                   {
-                    "value": "2. Protect Mountain Bike stock.",
-                    "textStyle": {
-                      "fontSize": "9pt",
-                      "color": "#111827",
-                      "fontWeight": "bold"
-                    }
-                  },
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
                   {
-                    "value": " Half of revenue depends on one product line.",
+                    "value": {
+                      "propertyIdentifier": {
+                        "objectName": "values",
+                        "propertyName": "expr"
+                      },
+                      "selector": {
+                        "id": "Action Top Category"
+                      }
+                    },
                     "textStyle": {
-                      "fontSize": "9pt",
-                      "color": "#374151"
+                      "fontSize": "12pt"
                     }
                   }
                 ]
@@ -69,23 +81,115 @@
               {
                 "textRuns": [
                   {
-                    "value": "3. Feature PayPal at checkout.",
-                    "textStyle": {
-                      "fontSize": "9pt",
-                      "color": "#111827",
-                      "fontWeight": "bold"
-                    }
-                  },
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
                   {
-                    "value": " PayPal order lines are about 41% larger than card lines.",
+                    "value": {
+                      "propertyIdentifier": {
+                        "objectName": "values",
+                        "propertyName": "expr"
+                      },
+                      "selector": {
+                        "id": "Action Payment"
+                      }
+                    },
                     "textStyle": {
-                      "fontSize": "9pt",
-                      "color": "#374151"
+                      "fontSize": "12pt"
                     }
                   }
                 ]
               }
             ]
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "expr": {
+              "expr": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "Action Payment"
+                },
+                "Annotations": {
+                  "NaturalLanguage": {
+                    "version": 1,
+                    "kind": "NaturalLanguage",
+                    "annotation": {
+                      "name": "Action Payment"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "Action Payment"
+          }
+        },
+        {
+          "properties": {
+            "expr": {
+              "expr": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "Action Cancellations"
+                },
+                "Annotations": {
+                  "NaturalLanguage": {
+                    "version": 1,
+                    "kind": "NaturalLanguage",
+                    "annotation": {
+                      "name": "Action Cancellations"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "Action Cancellations"
+          }
+        },
+        {
+          "properties": {
+            "expr": {
+              "expr": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "Action Top Category"
+                },
+                "Annotations": {
+                  "NaturalLanguage": {
+                    "version": 1,
+                    "kind": "NaturalLanguage",
+                    "annotation": {
+                      "name": "Action Top Category"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "Action Top Category"
           }
         }
       ]

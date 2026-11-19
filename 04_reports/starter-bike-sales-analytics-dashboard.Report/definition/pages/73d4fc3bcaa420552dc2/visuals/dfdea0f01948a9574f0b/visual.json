@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "dfdea0f01948a9574f0b",
   "position": {
     "x": 10,
@@ -22,7 +22,7 @@
                     "value": "Source: Quarter-One-Sales-Workbook.xlsx · 245 order lines, Q1 2022 and Q1 2023 · Revenue excludes cancelled orders and tax · Comparisons vs the same months a year earlier",
                     "textStyle": {
                       "fontSize": "8pt",
-                      "color": "#4B5563"
+                      "color": "#4b5563"
                     }
                   }
                 ]
