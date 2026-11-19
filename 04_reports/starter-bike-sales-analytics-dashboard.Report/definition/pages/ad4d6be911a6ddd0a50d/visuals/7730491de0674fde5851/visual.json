@@ -61,7 +61,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Payment Method'"
+                  "Value": "'Payment method'"
                 }
               }
             },

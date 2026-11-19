@@ -204,11 +204,28 @@ table Sales
 
 		annotation SummarizationSetBy = Automatic
 
+	column 'Order Month' = FORMAT ( Sales[Order Date], "MMM" )
+		dataType: string
+		lineageTag: e8dde6e5-cb52-549d-8bc0-450935558c9c
+		summarizeBy: none
+		sortByColumn: 'Order Month No'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Order Month No' = MONTH ( Sales[Order Date] )
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: d6e0da46-d6af-5d76-aafe-ee59d77095b5
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
 	partition Sales = m
 		mode: import
 		source =
 				let
-				    Source = Excel.Workbook(File.Contents("C:\Users\admin\Documents\Projects\starter-bike-sales-analytics\02_data\quarter_one_sales_workbook.xlsx"), null, true),
+				    Source = Excel.Workbook(File.Contents(#"Data Folder" & "quarter_one_sales_workbook.xlsx"), null, true),
 				    Sales_Sheet = Source{[Item="Sales",Kind="Sheet"]}[Data],
 				    #"Promoted Headers" = Table.PromoteHeaders(Sales_Sheet, [PromoteAllScalars=true]),
 				    #"Trimmed Headers" = Table.TransformColumnNames(#"Promoted Headers", Text.Trim),

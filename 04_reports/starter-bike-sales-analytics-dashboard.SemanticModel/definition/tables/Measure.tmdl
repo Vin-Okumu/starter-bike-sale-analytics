@@ -767,21 +767,32 @@ table Measure
 		lineageTag: 5acee3e6-a884-57ee-944d-d77e15730bc6
 
 	measure 'Categories Selling vs PY Label' =
-			VAR d = [Categories Selling] - [Categories Selling PY]
+			VAR py = [Categories Selling PY]
+			VAR d = [Categories Selling] - py
 			RETURN
-			    IF ( d > 0, "+" & d & " new", IF ( d < 0, d & " fewer", "No change" ) )
-			        & " vs " & [Prior Period Label] & " (" & [Categories Selling PY] & ")"
+			    IF (
+			        ISBLANK ( py ),
+			        "No prior-year data",
+			        IF ( d > 0, "+" & d & " new", IF ( d < 0, d & " fewer", "No change" ) ) & " vs " & [Prior Period Label] & " (" & py & ")"
+			    )
 		displayFolder: 2 Comparisons
 		lineageTag: af29a6da-1796-5a98-a7ff-c888a9131abb
 
 	measure 'Title Revenue Trend' =
+			VAR py = [Revenue PY]
 			VAR chg = [Revenue YoY %]
 			VAR t = TOPN ( 1, ADDCOLUMNS ( VALUES ( 'Date'[Month] ), "@r", [Total Revenue] ), [@r], DESC )
 			VAR bestMonth = MAXX ( t, 'Date'[Month] )
 			VAR bestValue = MAXX ( t, [@r] )
+			VAR m = FILTER ( ADDCOLUMNS ( VALUES ( 'Date'[Month] ), "@c", [Total Revenue], "@p", [Revenue PY] ), NOT ISBLANK ( [@c] ) )
+			VAR beatAll = COUNTROWS ( m ) > 1 && COUNTROWS ( FILTER ( m, [@c] > [@p] ) ) = COUNTROWS ( m )
 			RETURN
-			    "Revenue " & IF ( chg >= 0, "up ", "down " ) & FORMAT ( ABS ( chg ), "0.0%" ) & " vs " & [Prior Period Label]
-			        & "; " & bestMonth & " was the best month at " & IF ( ABS ( bestValue ) >= 1000, FORMAT ( bestValue / 1000, "$#,0.0" ) & "K", FORMAT ( bestValue, "$#,0" ) )
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( py ), bestMonth & " was the best month at " & IF ( ABS ( bestValue ) >= 1000, FORMAT ( bestValue / 1000, "$#,0.0" ) & "K", FORMAT ( bestValue, "$#,0" ) ) & " (no prior-year data to compare)",
+			        beatAll, "Revenue beat " & [Prior Period Label] & " in every month; " & bestMonth & " peaked at " & IF ( ABS ( bestValue ) >= 1000, FORMAT ( bestValue / 1000, "$#,0.0" ) & "K", FORMAT ( bestValue, "$#,0" ) ),
+			        "Revenue " & IF ( chg >= 0, "up ", "down " ) & FORMAT ( ABS ( chg ), "0.0%" ) & " vs " & [Prior Period Label] & "; " & bestMonth & " was the best month at " & IF ( ABS ( bestValue ) >= 1000, FORMAT ( bestValue / 1000, "$#,0.0" ) & "K", FORMAT ( bestValue, "$#,0" ) )
+			    )
 		displayFolder: 6 Titles
 		lineageTag: e8f60c96-71b3-5de6-8723-682071aa0544
 
@@ -830,11 +841,18 @@ table Measure
 		lineageTag: 9b9411f1-a280-5fb4-b200-39e7b0340f3d
 
 	measure 'Title Tax Trend' =
+			VAR py = [Tax Due PY]
 			VAR chg = [Tax Due YoY %]
 			VAR v = [Top Tax Month Value]
+			VAR m = FILTER ( ADDCOLUMNS ( VALUES ( 'Date'[Month] ), "@c", [Total Tax Due], "@p", [Tax Due PY] ), NOT ISBLANK ( [@c] ) )
+			VAR beatAll = COUNTROWS ( m ) > 1 && COUNTROWS ( FILTER ( m, [@c] > [@p] ) ) = COUNTROWS ( m )
 			RETURN
-			    "Tax due " & IF ( chg >= 0, "up ", "down " ) & FORMAT ( ABS ( chg ), "0.0%" ) & " vs " & [Prior Period Label]
-			        & "; " & [Top Tax Month] & " was highest at " & FORMAT ( v, "$#,0" )
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( py ), [Top Tax Month] & " had the most tax due at " & FORMAT ( v, "$#,0" ) & " (no prior-year data to compare)",
+			        beatAll, "Tax due was higher than " & [Prior Period Label] & " in every month; " & [Top Tax Month] & " was highest at " & FORMAT ( v, "$#,0" ),
+			        "Tax due " & IF ( chg >= 0, "up ", "down " ) & FORMAT ( ABS ( chg ), "0.0%" ) & " vs " & [Prior Period Label] & "; " & [Top Tax Month] & " was highest at " & FORMAT ( v, "$#,0" )
+			    )
 		displayFolder: 6 Titles
 		lineageTag: aceeb7dd-a833-513a-82af-307e3d417848
 
@@ -1025,6 +1043,93 @@ table Measure
 			RETURN IF ( SELECTEDVALUE ( Sales[Payment Method] ) = MAXX ( t, Sales[Payment Method] ), "#1D4ED8", "#C3C9D2" )
 		displayFolder: 7 Formatting
 		lineageTag: 6f7bdd22-4a00-51bc-823c-ca8db42ba2eb
+
+	/// Same as [Total Revenue]; used for the data-bar column in tables.
+	measure 'Revenue Bar' = [Total Revenue]
+		formatString: \$#,0
+		displayFolder: 7 Formatting
+		lineageTag: 2b05482e-d786-5e77-9505-27cfa3ed74d9
+
+	/// Same as [Cancelled Value]; used for the data-bar column in tables.
+	measure 'Cancelled Value Bar' = [Cancelled Value]
+		formatString: \$#,0
+		displayFolder: 7 Formatting
+		lineageTag: 470b54ed-4ee0-5a39-916a-b78814cd670e
+
+	/// Row background: top revenue category light blue.
+	measure 'Bg Top Category' =
+			VAR topC = CALCULATE ( [Top Category], ALLSELECTED ( Sales[Product Category] ) )
+			RETURN IF ( SELECTEDVALUE ( Sales[Product Category] ) = topC, "#EFF6FF", "#FFFFFF" )
+		displayFolder: 7 Formatting
+		lineageTag: fb0bdd81-613f-5d24-9dcc-6cb1d1042696
+
+	measure 'Text Top Category' =
+			VAR topC = CALCULATE ( [Top Category], ALLSELECTED ( Sales[Product Category] ) )
+			RETURN IF ( SELECTEDVALUE ( Sales[Product Category] ) = topC, "#1D4ED8", "#374151" )
+		displayFolder: 7 Formatting
+		lineageTag: 81ccd6c4-f663-5ce5-9410-8fd5851ae873
+
+	measure 'Bg Margin Leaders' =
+			VAR avgM = CALCULATE ( [Gross Margin %], ALLSELECTED ( Sales[Product Category] ) )
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        HASONEVALUE ( Sales[Product Category] ) && [Gross Margin %] >= avgM + 0.05, "#DBEAFE",
+			        [Bg Top Category]
+			    )
+		displayFolder: 7 Formatting
+		lineageTag: 6d77be41-3999-59bb-b248-276302ab0f70
+
+	measure 'Top Cancel Model' =
+			VAR t = TOPN ( 1, ADDCOLUMNS ( VALUES ( Sales[Product Name] ), "@v", [Cancelled Value] ), [@v], DESC )
+			RETURN IF ( [Cancelled Value] > 0, MAXX ( t, Sales[Product Name] ) )
+		displayFolder: 4 Orders
+		lineageTag: 98dbd55e-ed2c-505d-b150-5b976647803c
+
+	measure 'Bg Top Cancel Model' =
+			VAR topP = CALCULATE ( [Top Cancel Model], ALLSELECTED ( Sales[Product Name], Sales[Product Category] ) )
+			RETURN IF ( SELECTEDVALUE ( Sales[Product Name] ) = topP, "#FEF2F2", "#FFFFFF" )
+		displayFolder: 7 Formatting
+		lineageTag: d3ddaba2-34bb-52d3-86ce-4f85cda558a6
+
+	measure 'Text Top Cancel Model' =
+			VAR topP = CALCULATE ( [Top Cancel Model], ALLSELECTED ( Sales[Product Name], Sales[Product Category] ) )
+			RETURN IF ( SELECTEDVALUE ( Sales[Product Name] ) = topP, "#B91C1C", "#374151" )
+		displayFolder: 7 Formatting
+		lineageTag: c76019d5-b10d-57d3-8c07-089176c76aa2
+
+	measure 'Bg Top Tax Month' =
+			VAR topM = CALCULATE ( [Top Tax Month], ALLSELECTED ( 'Date'[Month] ) )
+			RETURN IF ( SELECTEDVALUE ( 'Date'[Month] ) = topM, "#EFF6FF", "#FFFFFF" )
+		displayFolder: 7 Formatting
+		lineageTag: 4b98772f-9e37-5f4b-8a3b-a8acaa9b503f
+
+	measure 'Text Top Tax Month' =
+			VAR topM = CALCULATE ( [Top Tax Month], ALLSELECTED ( 'Date'[Month] ) )
+			RETURN IF ( SELECTEDVALUE ( 'Date'[Month] ) = topM, "#1D4ED8", "#374151" )
+		displayFolder: 7 Formatting
+		lineageTag: 55cde627-b762-5f95-a130-27474a38139a
+
+	measure 'Text Margin Leaders' =
+			VAR avgM = CALCULATE ( [Gross Margin %], ALLSELECTED ( Sales[Product Category] ) )
+			RETURN IF ( HASONEVALUE ( Sales[Product Category] ) && [Gross Margin %] >= avgM + 0.05, "#1D4ED8", [Text Top Category] )
+		displayFolder: 7 Formatting
+		lineageTag: 1b7e18f8-9d6f-5844-b5ad-2c9e61f5af93
+
+	/// Biggest lines = categories with at least 5% of revenue.
+	measure 'Title Category Table' =
+			VAR big = FILTER ( VALUES ( Sales[Product Category] ), [Category Revenue Share] >= 0.05 )
+			VAR n = COUNTROWS ( big )
+			VAR lo = MINX ( big, [Gross Margin %] )
+			VAR hi = MAXX ( big, [Gross Margin %] )
+			RETURN
+			    IF (
+			        n > 1,
+			        "The " & n & " biggest lines all earn " & FORMAT ( lo, "0%" ) & "–" & FORMAT ( hi, "0%" ) & " margin; " & [Top Category] & " leads revenue",
+			        [Top Category] & " leads revenue"
+			    )
+		displayFolder: 6 Titles
+		lineageTag: 5dfcd593-f1b0-53fa-a537-6e3c67cff368
 
 	partition Measure = m
 		mode: import

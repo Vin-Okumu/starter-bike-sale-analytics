@@ -20,13 +20,13 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Date"
+                      "Entity": "Sales"
                     }
                   },
-                  "Property": "Month"
+                  "Property": "Order Month"
                 }
               },
-              "queryRef": "Date.Month",
+              "queryRef": "Sales.Order Month",
               "nativeQueryRef": "Month",
               "active": true,
               "displayName": "Month"
@@ -41,10 +41,10 @@
               "Column": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "Date"
+                    "Entity": "Sales"
                   }
                 },
-                "Property": "Month"
+                "Property": "Order Month"
               }
             },
             "direction": "Ascending"

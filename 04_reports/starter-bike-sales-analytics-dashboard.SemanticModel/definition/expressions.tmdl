@@ -1,5 +1,5 @@
-/// Folder that holds Quarter-One-Sales-Workbook.xlsx. Change this one value after cloning the repo.
-expression 'Data Folder' = "C:\Users\admin\Documents\Projects\starter-bike-sale-analytics\04_Data\" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+/// Folder that holds quarter_one_sales_workbook.xlsx. Change this one value after cloning the repo.
+expression 'Data Folder' = "C:\Users\admin\Documents\Projects\starter-bike-sales-analytics\02_data\" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
 	lineageTag: 3e7a91c2-5b4d-5e8f-9a10-c6d2e4f8b703
 
 	annotation PBI_ResultType = Text
