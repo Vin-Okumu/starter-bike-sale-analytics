@@ -1,0 +1,4 @@
+relationship 12f48b16-958a-3b6c-3511-fd8a38f11932
+	fromColumn: Sales.'Order Date'
+	toColumn: Date.Date
+

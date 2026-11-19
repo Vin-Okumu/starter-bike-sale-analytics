@@ -1,0 +1,194 @@
+{
+  "name": "Starter Bike",
+  "dataColors": [
+    "#1D4ED8",
+    "#C3C9D2",
+    "#6B7280",
+    "#B91C1C",
+    "#15803D",
+    "#93C5FD",
+    "#D7DBE1",
+    "#0F1E3D"
+  ],
+  "background": "#FFFFFF",
+  "foreground": "#111827",
+  "tableAccent": "#1D4ED8",
+  "good": "#15803D",
+  "neutral": "#4B5563",
+  "bad": "#B91C1C",
+  "maximum": "#1D4ED8",
+  "center": "#93C5FD",
+  "minimum": "#EFF6FF",
+  "textClasses": {
+    "callout": {
+      "fontFace": "Segoe UI Semibold",
+      "fontSize": 20,
+      "color": "#111827"
+    },
+    "title": {
+      "fontFace": "Segoe UI Semibold",
+      "fontSize": 11,
+      "color": "#111827"
+    },
+    "header": {
+      "fontFace": "Segoe UI Semibold",
+      "fontSize": 10,
+      "color": "#111827"
+    },
+    "label": {
+      "fontFace": "Segoe UI",
+      "fontSize": 9,
+      "color": "#4B5563"
+    }
+  },
+  "visualStyles": {
+    "*": {
+      "*": {
+        "background": [
+          {
+            "show": true,
+            "color": {
+              "solid": {
+                "color": "#FFFFFF"
+              }
+            },
+            "transparency": 0
+          }
+        ],
+        "border": [
+          {
+            "show": true,
+            "color": {
+              "solid": {
+                "color": "#E5E7EB"
+              }
+            },
+            "radius": 8
+          }
+        ],
+        "dropShadow": [
+          {
+            "show": false
+          }
+        ],
+        "title": [
+          {
+            "show": true,
+            "fontFamily": "Segoe UI Semibold",
+            "fontSize": 11,
+            "fontColor": {
+              "solid": {
+                "color": "#111827"
+              }
+            },
+            "alignment": "left"
+          }
+        ],
+        "subTitle": [
+          {
+            "fontFamily": "Segoe UI",
+            "fontSize": 9,
+            "fontColor": {
+              "solid": {
+                "color": "#4B5563"
+              }
+            }
+          }
+        ],
+        "padding": [
+          {
+            "top": 10,
+            "bottom": 10,
+            "left": 12,
+            "right": 12
+          }
+        ],
+        "valueAxis": [
+          {
+            "gridlineColor": {
+              "solid": {
+                "color": "#EEF0F3"
+              }
+            },
+            "gridlineStyle": "solid",
+            "labelColor": {
+              "solid": {
+                "color": "#6B7280"
+              }
+            },
+            "fontSize": 9
+          }
+        ],
+        "categoryAxis": [
+          {
+            "labelColor": {
+              "solid": {
+                "color": "#6B7280"
+              }
+            },
+            "fontSize": 9,
+            "gridlineShow": false
+          }
+        ],
+        "labels": [
+          {
+            "color": {
+              "solid": {
+                "color": "#374151"
+              }
+            },
+            "fontSize": 9
+          }
+        ],
+        "legend": [
+          {
+            "labelColor": {
+              "solid": {
+                "color": "#4B5563"
+              }
+            },
+            "fontSize": 9
+          }
+        ]
+      }
+    },
+    "page": {
+      "*": {
+        "background": [
+          {
+            "color": {
+              "solid": {
+                "color": "#F5F6F8"
+              }
+            },
+            "transparency": 0
+          }
+        ],
+        "outspace": [
+          {
+            "color": {
+              "solid": {
+                "color": "#F5F6F8"
+              }
+            },
+            "transparency": 0
+          }
+        ]
+      }
+    },
+    "textbox": {
+      "*": {
+        "background": [
+          {
+            "show": false
+          }
+        ],
+        "border": [
+          {
+            "show": false
+          }
+        ]
+      }
+    }
+  }
+}

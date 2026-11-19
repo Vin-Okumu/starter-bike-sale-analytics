@@ -1,0 +1,575 @@
+cultureInfo en-US
+
+	linguisticMetadata =
+			{
+			  "Version": "2.0.0",
+			  "Language": "en-US",
+			  "Entities": {
+			    "measure.revenue_py": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Measure",
+			          "ConceptualProperty": "Revenue PY"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Prior year": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "measure.total_revenue": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Measure",
+			          "ConceptualProperty": "Total Revenue"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Selected year": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Revenue": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "measure.gross_margin_": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Measure",
+			          "ConceptualProperty": "Gross Margin %"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Gross margin": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Margin": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "measure.category_revenue_share": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Measure",
+			          "ConceptualProperty": "Category Revenue Share"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Share": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "measure.total_profit": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Measure",
+			          "ConceptualProperty": "Total Profit"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Gross profit": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "measure.quantity_sold": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Measure",
+			          "ConceptualProperty": "Quantity Sold"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Units": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "measure.shipped_value": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Measure",
+			          "ConceptualProperty": "Shipped Value"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Shipped": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "measure.processing_value": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Measure",
+			          "ConceptualProperty": "Processing Value"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Processing": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "measure.cancelled_value": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Measure",
+			          "ConceptualProperty": "Cancelled Value"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Cancelled": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Order value lost": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "measure.total_cancelled_order": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Measure",
+			          "ConceptualProperty": "Total Cancelled Order"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Lines cancelled": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Cancelled": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "measure.cancelled_share_of_loss": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Measure",
+			          "ConceptualProperty": "Cancelled Share of Loss"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Share of loss": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "measure.cancelled_lines_py": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Measure",
+			          "ConceptualProperty": "Cancelled Lines PY"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Prior year": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "measure.cancelled_line_": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Measure",
+			          "ConceptualProperty": "Cancelled Line %"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Selected year": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "measure.total_shipped_order": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Measure",
+			          "ConceptualProperty": "Total Shipped Order"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Shipped": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "measure.total_orders_under_process": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Measure",
+			          "ConceptualProperty": "Total Orders Under Process"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Processing": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "measure.tax_due_py": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Measure",
+			          "ConceptualProperty": "Tax Due PY"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Prior year": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Tax due, prior year": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "measure.total_tax_due": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Measure",
+			          "ConceptualProperty": "Total Tax Due"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Selected year": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Tax due": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "measure.tax__of_revenue": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Measure",
+			          "ConceptualProperty": "Tax % of Revenue"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Tax % of revenue": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "measure.tax_due_yoy_": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Measure",
+			          "ConceptualProperty": "Tax Due YoY %"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Change": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "sales.product_category": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Sales",
+			          "ConceptualProperty": "Product Category"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Category": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "sales.payment_method": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Sales",
+			          "ConceptualProperty": "Payment Method"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Payment": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "sales.product_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Sales",
+			          "ConceptualProperty": "Product Name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Model": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "date.month": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Date",
+			          "ConceptualProperty": "Month"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Month": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "date.year": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Date",
+			          "ConceptualProperty": "Year"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Year": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    }
+			  }
+			}
+		contentType: json
+

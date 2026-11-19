@@ -1,0 +1,74 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 106.16438617445017,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 0,
+            "y": 0
+          },
+          "nodeIndex": "Sales",
+          "nodeLineageTag": "b0991acb-4d93-459f-9e0f-28e13a871ff7",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 284,
+            "y": 15.06849315068493
+          },
+          "nodeIndex": "Date",
+          "nodeLineageTag": "8c5eae32-f47f-4cd4-bb55-7f074371d0e1",
+          "size": {
+            "height": 268.83561643835617,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 568,
+            "y": 65.1232876712329
+          },
+          "nodeIndex": "Measure",
+          "nodeLineageTag": "92e454ca-1bde-495e-8123-44b2c1a9d249",
+          "size": {
+            "height": 177.8767123287671,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 852,
+            "y": 50
+          },
+          "nodeIndex": "Refresh Info",
+          "nodeLineageTag": "6b1f0f5e-3c1a-5d0e-9f61-2a7d4c8e1b01",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 97.333333333333343,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}
