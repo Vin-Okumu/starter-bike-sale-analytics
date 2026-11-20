@@ -817,9 +817,24 @@ table Measure
 		lineageTag: 7d013b00-c41a-5bdc-8f53-3fd8d04c05d3
 
 	measure 'Title Order Status' =
+			
 			VAR c = CALCULATE ( [Top Cancel Category], ALLSELECTED ( Sales[Product Category] ) )
 			VAR r = CALCULATE ( [Top Cancel Category Rate], ALLSELECTED ( Sales[Product Category] ) )
-			RETURN c & ": " & FORMAT ( r, "0%" ) & " of order lines cancelled"
+			VAR totalLines = CALCULATE ( [Order Lines], ALLSELECTED ( Sales[Product Category] ) )
+			VAR bigOthers =
+			    FILTER (
+			        ALLSELECTED ( Sales[Product Category] ),
+			        Sales[Product Category] <> c
+			            && DIVIDE ( [Order Lines], totalLines ) >= 0.05
+			    )
+			VAR otherCancelled = SUMX ( bigOthers, [Total Cancelled Order] )
+			RETURN
+			    IF (
+			        ISBLANK ( c ),
+			        "No order lines were cancelled",
+			        c & ": " & FORMAT ( r, "0%" ) & " of order lines cancelled"
+			            & IF ( otherCancelled = 0, ", while every other big line ships", "" )
+			    )
 		displayFolder: 6 Titles
 		lineageTag: ed3ad67b-51f1-5c3e-b041-5513931992b8
 
@@ -830,13 +845,31 @@ table Measure
 		displayFolder: 6 Titles
 		lineageTag: 790c9861-abdc-5785-8ee8-55dd80bd881f
 
-	measure 'Title PayPal' = "PayPal order lines are " & FORMAT ( [PayPal Premium %], "0%" ) & " larger than card lines"
+	measure 'Title PayPal' =
+			
+			VAR t = ADDCOLUMNS ( ALLSELECTED ( Sales[Payment Method] ), "@a", [Avg Line Value] )
+			VAR best = MAXX ( TOPN ( 1, t, [@a], DESC ), Sales[Payment Method] )
+			VAR bestV = MAXX ( TOPN ( 1, t, [@a], DESC ), [@a] )
+			VAR other = MAXX ( TOPN ( 1, t, [@a], ASC ), Sales[Payment Method] )
+			VAR otherV = MAXX ( TOPN ( 1, t, [@a], ASC ), [@a] )
+			VAR shortName = SUBSTITUTE ( other, "Credit Card", "card" )
+			RETURN
+			    best & " order lines are " & FORMAT ( DIVIDE ( bestV - otherV, otherV ), "0%" )
+			        & " larger than " & shortName & " lines"
 		displayFolder: 6 Titles
 		lineageTag: 09b87a2d-bca6-56b5-8143-a149ce37e761
 
 	measure 'Title Processing Value' =
+			
 			VAR v = [Processing Value]
-			RETURN IF ( ABS ( v ) >= 1000, FORMAT ( v / 1000, "$#,0.0" ) & "K", FORMAT ( v, "$#,0" ) ) & " of order value is still processing"
+			VAR s = DIVIDE ( v, [Order Value] )
+			RETURN
+			    IF (
+			        v > 0,
+			        IF ( v >= 1000, FORMAT ( v / 1000, "$#,0.0" ) & "K", FORMAT ( v, "$#,0" ) )
+			            & " (" & FORMAT ( s, "0%" ) & ") of order value is still processing",
+			        "All order value has shipped or been cancelled"
+			    )
 		displayFolder: 6 Titles
 		lineageTag: 9b9411f1-a280-5fb4-b200-39e7b0340f3d
 
@@ -1028,15 +1061,17 @@ table Measure
 		lineageTag: 69dbdf68-235d-53c0-8e0c-f58461c60aa9
 
 	measure 'Title Cancel Trend' =
+			
 			VAR cur = [Cancelled Line %]
 			VAR py = [Cancelled Lines PY]
 			VAR chg = ( cur - py ) * 100
 			RETURN
 			    SWITCH (
 			        TRUE (),
-			        ISBLANK ( py ), "Cancellation rate: " & FORMAT ( cur, "0.0%" ),
+			        ISBLANK ( py ), "Cancellation rate: " & FORMAT ( cur, "0.0%" ) & " of order lines",
 			        ABS ( chg ) < 0.5, "Cancellations held near " & FORMAT ( cur, "0%" ) & " in both years",
-			        "Cancellation rate " & IF ( chg > 0, "rose", "fell" ) & " to " & FORMAT ( cur, "0.0%" ) & " from " & FORMAT ( py, "0.0%" )
+			        "Cancellation rate " & IF ( chg > 0, "rose", "fell" ) & " to " & FORMAT ( cur, "0.0%" )
+			            & " from " & FORMAT ( py, "0.0%" )
 			    )
 		displayFolder: 6 Titles
 		lineageTag: 5df64690-f581-518e-bdc0-dc15125bab81
@@ -1047,10 +1082,29 @@ table Measure
 		lineageTag: d87bd006-4c42-512e-9262-85cbbc35d179
 
 	measure 'Title Cancelled Models' =
-			VAR t = FILTER ( ADDCOLUMNS ( ALLSELECTED ( Sales[Product Name] ), "@v", [Cancelled Value] ), [@v] > 0 )
-			VAR n = COUNTROWS ( t )
-			VAR topP = MAXX ( TOPN ( 1, t, [@v], DESC ), Sales[Product Name] )
-			RETURN IF ( n > 0, n & " models account for every cancellation; start with " & topP, "No cancelled orders" )
+			
+			VAR c = CALCULATE ( [Top Cancel Category], ALLSELECTED ( Sales[Product Category] ) )
+			VAR _models =
+			    FILTER (
+			        ADDCOLUMNS (
+			            CALCULATETABLE ( VALUES ( Sales[Product Name] ), Sales[Product Category] = c ),
+			            "@v", CALCULATE ( [Cancelled Value], Sales[Product Category] = c )
+			        ),
+			        [@v] > 0
+			    )
+			VAR n = COUNTROWS ( _models )
+			VAR topP = MAXX ( TOPN ( 1, _models, [@v], DESC ), Sales[Product Name] )
+			VAR word =
+			    SWITCH ( n, 1, "One", 2, "Two", 3, "Three", 4, "Four", 5, "Five", 6, "Six", 7, "Seven", 8, "Eight", 9, "Nine", n & "" )
+			VAR catModel = SUBSTITUTE ( c, "Bikes", "Bike" )
+			VAR catShort = SUBSTITUTE ( c, " Bikes", "" )
+			RETURN
+			    IF (
+			        ISBLANK ( c ),
+			        "No orders were cancelled",
+			        word & " " & catModel & " models account for every " & catShort
+			            & " cancellation; start with " & topP
+			    )
 		displayFolder: 6 Titles
 		lineageTag: 648af4a5-5406-55db-9c2b-04c35ad76a61
 
@@ -1112,8 +1166,9 @@ table Measure
 		lineageTag: d3ddaba2-34bb-52d3-86ce-4f85cda558a6
 
 	measure 'Text Top Cancel Model' =
+			
 			VAR topP = CALCULATE ( [Top Cancel Model], ALLSELECTED ( Sales[Product Name], Sales[Product Category] ) )
-			RETURN IF ( SELECTEDVALUE ( Sales[Product Name] ) = topP, "#B91C1C", "#374151" )
+			RETURN IF ( SELECTEDVALUE ( Sales[Product Name] ) = topP, "#111827", "#374151" )
 		displayFolder: 7 Formatting
 		lineageTag: c76019d5-b10d-57d3-8c07-089176c76aa2
 
@@ -1236,18 +1291,9 @@ table Measure
 	measure 'Label Cancelled Value' =
 			
 			VAR v = [Cancelled Value]
-			VAR topC =
-			    CALCULATE ( [Top Cancel Category], ALLSELECTED ( Sales[Product Category] ) )
-			VAR total =
-			    CALCULATE ( [Cancelled Value], ALLSELECTED ( Sales[Product Category] ) )
-			VAR txt =
-			    IF ( v >= 1000, FORMAT ( v / 1000, "$#,0.0" ) & "K", FORMAT ( v, "$#,0" ) )
 			RETURN
-			    IF (
-			        SELECTEDVALUE ( Sales[Product Category] ) = topC,
-			        txt & " · " & FORMAT ( DIVIDE ( v, total ), "0%" ) & " of value lost",
-			        txt
-			    )
+			    IF ( v >= 1000, FORMAT ( v / 1000, "$#,0.0" ) & "K", FORMAT ( v, "$#,0" ) )
+			        & " · " & FORMAT ( DIVIDE ( v, [Order Value] ), "0%" )
 		displayFolder: 7 Formatting
 		lineageTag: 6897a68f-fd39-4c48-a58f-b2dd0876d4d6
 
@@ -1390,6 +1436,158 @@ table Measure
 		lineageTag: 80150b67-8ab4-4cd4-9c13-25951e793060
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	/// Text bar drawn with block characters plus the revenue figure at its end; the top category's bar turns blue through [Bar Color Top Category].
+	measure 'Revenue Bar Label' =
+			
+			VAR v = [Total Revenue]
+			VAR mx = MAXX ( ALLSELECTED ( Sales[Product Category] ), [Total Revenue] )
+			VAR units = 16
+			VAR n = IF ( v > 0, MAX ( 1, ROUND ( DIVIDE ( v, mx ) * units, 0 ) ), 0 )
+			VAR bar = REPT ( UNICHAR ( 9473 ), n )
+			VAR txt = IF ( v >= 1000, FORMAT ( v / 1000, "$#,0.0" ) & "K", FORMAT ( v, "$#,0" ) )
+			RETURN
+			    IF ( ISINSCOPE ( Sales[Product Category] ), bar & "  " & txt, txt )
+		displayFolder: 7 Formatting
+		lineageTag: 17ef5fcd-aaf0-56ee-a6bd-60d3f7e507cd
+
+	/// Font colour for [Revenue Bar Label]: blue for the top category, grey for the rest.
+	measure 'Bar Color Top Category' =
+			VAR topC = CALCULATE ( [Top Category], ALLSELECTED ( Sales[Product Category] ) )
+			RETURN IF ( SELECTEDVALUE ( Sales[Product Category] ) = topC, "#1D4ED8", "#6B7280" )
+		displayFolder: 7 Formatting
+		lineageTag: a698c2f3-b4ca-55d1-9834-eba1f7b5e2dd
+
+	measure 'Subtitle Payment' =
+			
+			"Average value per fulfilled order line, Q1 " & SELECTEDVALUE ( 'Date'[Year] )
+		displayFolder: 6 Titles
+		lineageTag: 486d70ea-6038-4b6e-88b6-7382f3556b4b
+
+	measure 'Label Payment' =
+			
+			VAR v = [Avg Line Value]
+			VAR t = TOPN ( 1, ADDCOLUMNS ( ALLSELECTED ( Sales[Payment Method] ), "@a", [Avg Line Value] ), [@a], DESC )
+			VAR isTop = SELECTEDVALUE ( Sales[Payment Method] ) = MAXX ( t, Sales[Payment Method] )
+			RETURN FORMAT ( v, "$#,0" ) & IF ( isTop, " per line", "" )
+		displayFolder: 6 Titles
+		lineageTag: 8978e0cb-db2a-461f-bcf3-3ec29bda806b
+
+	measure 'Label Color Top Payment' =
+			
+			VAR t = TOPN ( 1, ADDCOLUMNS ( ALLSELECTED ( Sales[Payment Method] ), "@a", [Avg Line Value] ), [@a], DESC )
+			RETURN IF ( SELECTEDVALUE ( Sales[Payment Method] ) = MAXX ( t, Sales[Payment Method] ), "#1D4ED8", "#374151" )
+		displayFolder: 7 Formatting
+		lineageTag: e608662d-554b-431e-b391-b531c0c2027f
+
+	measure 'Axis Max Payment' =
+			
+			MAXX ( ALLSELECTED ( Sales[Payment Method] ), [Avg Line Value] ) * 1.4
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: eb0f9185-47ef-461a-bb03-c6838d64677d
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Note Payment Mix' =
+			
+			VAR t =
+			    ADDCOLUMNS (
+			        ALLSELECTED ( Sales[Payment Method] ),
+			        "@lines", [Fulfilled Lines],
+			        "@rev", [Total Revenue]
+			    )
+			VAR used = MAXX ( TOPN ( 1, t, [@lines], DESC ), Sales[Payment Method] )
+			VAR usedShare = DIVIDE ( MAXX ( TOPN ( 1, t, [@lines], DESC ), [@lines] ), SUMX ( t, [@lines] ) )
+			VAR earner = MAXX ( TOPN ( 1, t, [@rev], DESC ), Sales[Payment Method] )
+			VAR earnerRev = MAXX ( TOPN ( 1, t, [@rev], DESC ), [@rev] )
+			VAR otherRev = MAXX ( TOPN ( 1, t, [@rev], ASC ), [@rev] )
+			VAR fmt1 = IF ( earnerRev >= 1000, FORMAT ( earnerRev / 1000, "$#,0.0" ) & "K", FORMAT ( earnerRev, "$#,0" ) )
+			VAR fmt2 = IF ( otherRev >= 1000, FORMAT ( otherRev / 1000, "$#,0.0" ) & "K", FORMAT ( otherRev, "$#,0" ) )
+			VAR usedName = SUBSTITUTE ( used, "Credit Card", "Card" )
+			RETURN
+			    IF (
+			        used <> earner,
+			        usedName & " is used on " & FORMAT ( usedShare, "0%" ) & " of lines, yet " & earner
+			            & " earns more (" & fmt1 & " vs " & fmt2 & ").",
+			        usedName & " is used on " & FORMAT ( usedShare, "0%" ) & " of lines and earns the most (" & fmt1 & " vs " & fmt2 & ")."
+			    )
+		lineageTag: 6c0f3838-7a60-43a9-bd19-8a2e8f1e181d
+
+	measure 'Subtitle Order Status' =
+			
+			"Share of order lines by status, Q1 " & SELECTEDVALUE ( 'Date'[Year] )
+			    & ", worst first · hover a bar for line counts"
+		displayFolder: 6 Titles
+		lineageTag: 0857115a-b614-4068-b29f-c6c09480cd29
+
+	measure 'Subtitle Cancel Trend' =
+			
+			VAR cur = [Cancelled Line %]
+			VAR py = [Cancelled Lines PY]
+			VAR base = "Share of order lines cancelled by month"
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( py ), base,
+			        ABS ( ( cur - py ) * 100 ) < 0.5,
+			            base & ": a recurring problem · blue = 2023, dashed grey = 2022",
+			        base & " · blue = actual selected year, dashed grey = actual prior year"
+			    )
+		displayFolder: 6 Titles
+		lineageTag: 398f6da8-3af1-4b1d-b30c-1bde0d18d040
+
+	measure 'Subtitle Cancelled Models' =
+			
+			"Cancelled order lines by model, Q1 " & SELECTEDVALUE ( 'Date'[Year] ) & ", largest loss first"
+		displayFolder: 6 Titles
+		lineageTag: 2767b954-fd77-4f3f-828b-2b01b19a67e8
+
+	measure 'Cancelled Bar Label' =
+			
+			VAR v = [Cancelled Value]
+			VAR mx =
+			    MAXX ( ALLSELECTED ( Sales[Product Name], Sales[Product Category] ), [Cancelled Value] )
+			VAR units = 16
+			VAR n = IF ( v > 0, MAX ( 1, ROUND ( DIVIDE ( v, mx ) * units, 0 ) ), 0 )
+			VAR txt = IF ( v >= 1000, FORMAT ( v / 1000, "$#,0.0" ) & "K", FORMAT ( v, "$#,0" ) )
+			RETURN
+			    IF (
+			        v > 0,
+			        IF ( ISINSCOPE ( Sales[Product Name] ), REPT ( UNICHAR ( 9473 ), n ) & "  " & txt, txt )
+			    )
+		displayFolder: 7 Formatting
+		lineageTag: 058777b1-a7f9-48fb-83b0-18cede95f968
+
+	measure 'Bar Color Cancelled Model' =
+			
+			VAR topC = CALCULATE ( [Top Cancel Category], ALLSELECTED ( Sales[Product Category] ) )
+			RETURN IF ( SELECTEDVALUE ( Sales[Product Category] ) = topC, "#B91C1C", "#6B7280" )
+		displayFolder: 7 Formatting
+		lineageTag: 72a3984d-2fd9-4c49-8679-65561c61ac3c
+
+	measure 'Subtitle Order Value' =
+			
+			"Order value by status at report date, Q1 " & SELECTEDVALUE ( 'Date'[Year] )
+		displayFolder: 6 Titles
+		lineageTag: af3c811f-4f38-456d-8679-006ded7abc7d
+
+	measure 'Label Shipped Value' =
+			
+			VAR v = [Shipped Value]
+			RETURN
+			    IF ( v >= 1000, FORMAT ( v / 1000, "$#,0.0" ) & "K", FORMAT ( v, "$#,0" ) )
+			        & " · " & FORMAT ( DIVIDE ( v, [Order Value] ), "0%" )
+		displayFolder: 7 Formatting
+		lineageTag: 8824d7bc-49a7-4666-b328-e70b916fc695
+
+	measure 'Label Processing Value' =
+			
+			VAR v = [Processing Value]
+			RETURN
+			    IF ( v >= 1000, FORMAT ( v / 1000, "$#,0.0" ) & "K", FORMAT ( v, "$#,0" ) )
+			        & " · " & FORMAT ( DIVIDE ( v, [Order Value] ), "0%" )
+		displayFolder: 7 Formatting
+		lineageTag: 9526454f-e9ab-4aad-91cf-2b9a55fc736b
 
 	partition Measure = m
 		mode: import

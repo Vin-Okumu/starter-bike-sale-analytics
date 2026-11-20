@@ -1,67 +1,18 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "e3a5d9e72d1739ce8f6c",
   "position": {
-    "x": 20,
-    "y": 192,
+    "x": 20.410022779043281,
+    "y": 186.60592255125286,
     "z": 24000,
-    "height": 248,
-    "width": 740,
+    "height": 253.66742596810934,
+    "width": 739.13439635535315,
     "tabOrder": 24000
   },
   "visual": {
     "visualType": "hundredPercentStackedBarChart",
     "query": {
       "queryState": {
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Measure"
-                    }
-                  },
-                  "Property": "Total Shipped Order"
-                }
-              },
-              "queryRef": "Measure.Total Shipped Order",
-              "nativeQueryRef": "Shipped",
-              "displayName": "Shipped"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Measure"
-                    }
-                  },
-                  "Property": "Total Orders Under Process"
-                }
-              },
-              "queryRef": "Measure.Total Orders Under Process",
-              "nativeQueryRef": "Processing",
-              "displayName": "Processing"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Measure"
-                    }
-                  },
-                  "Property": "Total Cancelled Order"
-                }
-              },
-              "queryRef": "Measure.Total Cancelled Order",
-              "nativeQueryRef": "Cancelled",
-              "displayName": "Cancelled"
-            }
-          ]
-        },
         "Category": {
           "projections": [
             {
@@ -111,6 +62,55 @@
               },
               "queryRef": "Measure.Order Lines",
               "nativeQueryRef": "Order Lines"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "Total Shipped Order"
+                }
+              },
+              "queryRef": "Measure.Total Shipped Order",
+              "nativeQueryRef": "Shipped",
+              "displayName": "Shipped"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "Total Orders Under Process"
+                }
+              },
+              "queryRef": "Measure.Total Orders Under Process",
+              "nativeQueryRef": "Processing",
+              "displayName": "Processing"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "Total Cancelled Order"
+                }
+              },
+              "queryRef": "Measure.Total Cancelled Order",
+              "nativeQueryRef": "Cancelled",
+              "displayName": "Cancelled"
             }
           ]
         }
@@ -531,8 +531,13 @@
             },
             "text": {
               "expr": {
-                "Literal": {
-                  "Value": "'Share of order lines by status, sorted by cancellation rate'"
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "Subtitle Order Status"
                 }
               }
             },
@@ -593,5 +598,94 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "4bbb26b3a00de132075b",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "Total Shipped Order"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "f7aa91ad3e1d0e0200c0",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "Total Orders Under Process"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "4109c39293191020707c",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "Total Cancelled Order"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "c844327e718b794ecd5a",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Sales"
+              }
+            },
+            "Property": "Product Category"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "c35e1ea09a4068347b6c",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "Cancelled Line %"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "d12fa804289054060a35",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "Order Lines"
+          }
+        },
+        "type": "Advanced"
+      }
+    ],
+    "filterSortOrder": "Ascending"
   }
 }

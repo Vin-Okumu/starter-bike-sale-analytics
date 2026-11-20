@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "bf80ef8db2c28ee76951",
   "position": {
-    "x": 772,
-    "y": 192,
+    "x": 772.66514806378132,
+    "y": 186.60592255125286,
     "z": 25000,
-    "height": 248,
-    "width": 488,
+    "height": 253.66742596810934,
+    "width": 486.9248291571754,
     "tabOrder": 25000
   },
   "visual": {
@@ -321,6 +321,13 @@
                   "Value": "0D"
                 }
               }
+            },
+            "end": {
+              "expr": {
+                "Literal": {
+                  "Value": "0.15D"
+                }
+              }
             }
           }
         }
@@ -369,7 +376,7 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
                 }
               }
             },
@@ -561,8 +568,13 @@
             },
             "text": {
               "expr": {
-                "Literal": {
-                  "Value": "'Share of order lines cancelled, by month'"
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "Subtitle Cancel Trend"
                 }
               }
             },

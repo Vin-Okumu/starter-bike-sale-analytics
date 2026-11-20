@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "a9cb9003492a55527ec2",
   "position": {
-    "x": 20,
-    "y": 192,
+    "x": 19.6846638694294,
+    "y": 183.21879447699672,
     "z": 24000,
-    "height": 248,
-    "width": 740,
+    "height": 260.44324504168128,
+    "width": 740.446202473152,
     "tabOrder": 24000
   },
   "visual": {
@@ -67,8 +67,8 @@
                 }
               },
               "queryRef": "Measure.Gross Margin %",
-              "nativeQueryRef": "Gross margin",
-              "displayName": "Gross margin"
+              "nativeQueryRef": "Margin %",
+              "displayName": "Margin %"
             }
           ]
         }
@@ -183,7 +183,7 @@
             "showAxisTitle": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
                 }
               }
             },

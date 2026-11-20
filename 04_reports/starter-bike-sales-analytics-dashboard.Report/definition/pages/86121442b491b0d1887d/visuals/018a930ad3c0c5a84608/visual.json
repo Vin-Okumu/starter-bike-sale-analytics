@@ -1,0 +1,74 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "018a930ad3c0c5a84608",
+  "position": {
+    "x": 788.44106463878325,
+    "y": 640.69008569320692,
+    "z": 27001,
+    "height": 37.918392826740821,
+    "width": 439.33034447534192,
+    "tabOrder": 27001
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": {
+                      "propertyIdentifier": {
+                        "objectName": "values",
+                        "propertyName": "expr"
+                      },
+                      "selector": {
+                        "id": "Note Payment Mix"
+                      }
+                    },
+                    "textStyle": {
+                      "fontSize": "8pt"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "expr": {
+              "expr": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "Note Payment Mix"
+                },
+                "Annotations": {
+                  "NaturalLanguage": {
+                    "version": 1,
+                    "kind": "NaturalLanguage",
+                    "annotation": {
+                      "name": "Note Payment Mix"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "Note Payment Mix"
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

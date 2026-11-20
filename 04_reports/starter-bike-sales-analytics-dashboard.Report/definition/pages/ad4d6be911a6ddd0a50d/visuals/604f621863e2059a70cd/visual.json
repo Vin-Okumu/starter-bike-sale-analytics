@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "604f621863e2059a70cd",
   "position": {
-    "x": 772,
-    "y": 452,
+    "x": 772.66514806378132,
+    "y": 451.93621867881552,
     "z": 27000,
-    "height": 226,
-    "width": 488,
+    "height": 225.96810933940776,
+    "width": 486.9248291571754,
     "tabOrder": 27000
   },
   "visual": {
@@ -145,7 +145,14 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "8D"
+                  "Value": "9D"
+                }
+              }
+            },
+            "enableValueDataLabel": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
                 }
               }
             }
@@ -462,8 +469,13 @@
             },
             "text": {
               "expr": {
-                "Literal": {
-                  "Value": "'Order value by status at report date'"
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "Subtitle Order Value"
                 }
               }
             },
@@ -524,5 +536,51 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "1c40cb0ec06c488c7b90",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "Shipped Value"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "83d4e1f5044072aae63a",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "Processing Value"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "aaff08608126035bd966",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "Cancelled Value"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

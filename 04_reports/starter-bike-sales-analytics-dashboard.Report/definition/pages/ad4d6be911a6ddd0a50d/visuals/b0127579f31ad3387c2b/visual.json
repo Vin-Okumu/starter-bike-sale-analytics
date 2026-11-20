@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "b0127579f31ad3387c2b",
   "position": {
     "x": 20,
@@ -68,27 +68,11 @@
                       "Entity": "Measure"
                     }
                   },
-                  "Property": "Cancelled Value Bar"
+                  "Property": "Cancelled Bar Label"
                 }
               },
-              "queryRef": "Measure.Cancelled Value Bar",
-              "nativeQueryRef": "Order value lost",
-              "displayName": "Order value lost"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Measure"
-                    }
-                  },
-                  "Property": "Cancelled Value"
-                }
-              },
-              "queryRef": "Measure.Cancelled Value",
-              "nativeQueryRef": " ",
-              "displayName": " "
+              "queryRef": "Measure.Cancelled Bar Label",
+              "nativeQueryRef": "Cancelled Bar Label"
             },
             {
               "field": {
@@ -118,7 +102,7 @@
                     "Entity": "Measure"
                   }
                 },
-                "Property": "Cancelled Value Bar"
+                "Property": "Cancelled Bar Label"
               }
             },
             "direction": "Descending"
@@ -216,6 +200,13 @@
               "expr": {
                 "Literal": {
                   "Value": "9D"
+                }
+              }
+            },
+            "wordWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
                 }
               }
             }
@@ -354,27 +345,11 @@
                 }
               }
             ],
-            "metadata": "Measure.Cancelled Value Bar"
+            "metadata": "Measure.Cancelled Share of Loss"
           }
         },
         {
           "properties": {
-            "backColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Measure"
-                        }
-                      },
-                      "Property": "Bg Top Cancel Model"
-                    }
-                  }
-                }
-              }
-            },
             "fontColor": {
               "solid": {
                 "color": {
@@ -385,26 +360,12 @@
                           "Entity": "Measure"
                         }
                       },
-                      "Property": "Text Top Cancel Model"
+                      "Property": "Bar Color Cancelled Model"
                     }
                   }
                 }
               }
-            }
-          },
-          "selector": {
-            "data": [
-              {
-                "dataViewWildcard": {
-                  "matchingOption": 1
-                }
-              }
-            ],
-            "metadata": "Measure.Cancelled Value"
-          }
-        },
-        {
-          "properties": {
+            },
             "backColor": {
               "solid": {
                 "color": {
@@ -430,7 +391,7 @@
                 }
               }
             ],
-            "metadata": "Measure.Cancelled Share of Loss"
+            "metadata": "Measure.Cancelled Bar Label"
           }
         }
       ],
@@ -544,34 +505,6 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "170D"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "Measure.Cancelled Value Bar"
-          }
-        },
-        {
-          "properties": {
-            "value": {
-              "expr": {
-                "Literal": {
-                  "Value": "70D"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "Measure.Cancelled Value"
-          }
-        },
-        {
-          "properties": {
-            "value": {
-              "expr": {
-                "Literal": {
                   "Value": "90D"
                 }
               }
@@ -585,62 +518,6 @@
       "columnFormatting": [
         {
           "properties": {
-            "dataBars": {
-              "positiveColor": {
-                "solid": {
-                  "color": {
-                    "expr": {
-                      "Literal": {
-                        "Value": "'#B91C1C'"
-                      }
-                    }
-                  }
-                }
-              },
-              "negativeColor": {
-                "solid": {
-                  "color": {
-                    "expr": {
-                      "Literal": {
-                        "Value": "'#B91C1C'"
-                      }
-                    }
-                  }
-                }
-              },
-              "axisColor": {
-                "solid": {
-                  "color": {
-                    "expr": {
-                      "Literal": {
-                        "Value": "'#FFFFFF'"
-                      }
-                    }
-                  }
-                }
-              },
-              "reverseDirection": {
-                "expr": {
-                  "Literal": {
-                    "Value": "false"
-                  }
-                }
-              },
-              "hideText": {
-                "expr": {
-                  "Literal": {
-                    "Value": "true"
-                  }
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "Measure.Cancelled Value Bar"
-          }
-        },
-        {
-          "properties": {
             "alignment": {
               "expr": {
                 "Literal": {
@@ -650,7 +527,7 @@
             }
           },
           "selector": {
-            "metadata": "Measure.Cancelled Value"
+            "metadata": "Measure.Cancelled Bar Label"
           }
         }
       ]
@@ -821,8 +698,107 @@
             }
           }
         }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "Subtitle Cancelled Models"
+                }
+              }
+            }
+          }
+        }
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "054ba7125b91932db71d",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Sales"
+              }
+            },
+            "Property": "Product Name"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "5ad20026a766ebad9d9e",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Sales"
+              }
+            },
+            "Property": "Product Category"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "05d9a43060e9d0b07301",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "Total Cancelled Order"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "68cf5838062b62012425",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "Cancelled Share of Loss"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "ccb3589c740110858141",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "Cancelled Bar Label"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }
