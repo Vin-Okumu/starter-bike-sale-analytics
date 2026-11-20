@@ -874,17 +874,28 @@ table Measure
 		lineageTag: 9b9411f1-a280-5fb4-b200-39e7b0340f3d
 
 	measure 'Title Tax Trend' =
+			
 			VAR py = [Tax Due PY]
 			VAR chg = [Tax Due YoY %]
 			VAR v = [Top Tax Month Value]
-			VAR m = FILTER ( ADDCOLUMNS ( VALUES ( 'Date'[Month] ), "@c", [Total Tax Due], "@p", [Tax Due PY] ), NOT ISBLANK ( [@c] ) )
-			VAR beatAll = COUNTROWS ( m ) > 1 && COUNTROWS ( FILTER ( m, [@c] > [@p] ) ) = COUNTROWS ( m )
+			VAR m =
+			    FILTER (
+			        ADDCOLUMNS ( VALUES ( 'Date'[Month] ), "@c", [Total Tax Due], "@p", [Tax Due PY] ),
+			        NOT ISBLANK ( [@c] )
+			    )
+			VAR beatAll =
+			    COUNTROWS ( m ) > 1
+			        && COUNTROWS ( FILTER ( m, [@c] > [@p] ) ) = COUNTROWS ( m )
 			RETURN
 			    SWITCH (
 			        TRUE (),
-			        ISBLANK ( py ), [Top Tax Month] & " had the most tax due at " & FORMAT ( v, "$#,0" ) & " (no prior-year data to compare)",
-			        beatAll, "Tax due was higher than " & [Prior Period Label] & " in every month; " & [Top Tax Month] & " was highest at " & FORMAT ( v, "$#,0" ),
-			        "Tax due " & IF ( chg >= 0, "up ", "down " ) & FORMAT ( ABS ( chg ), "0.0%" ) & " vs " & [Prior Period Label] & "; " & [Top Tax Month] & " was highest at " & FORMAT ( v, "$#,0" )
+			        ISBLANK ( py ),
+			            [Top Tax Month] & " had the most tax due at " & FORMAT ( v, "$#,0" ) & " (" & [Current Period Label] & ")",
+			        beatAll,
+			            "Tax due in " & [Current Period Label] & " was higher than " & [Prior Period Label] & " in every month; "
+			                & [Top Tax Month] & " was highest at " & FORMAT ( v, "$#,0" ),
+			        "Tax due " & IF ( chg >= 0, "up ", "down " ) & FORMAT ( ABS ( chg ), "0.0%" ) & " vs "
+			            & [Prior Period Label] & "; " & [Top Tax Month] & " was highest at " & FORMAT ( v, "$#,0" )
 			    )
 		displayFolder: 6 Titles
 		lineageTag: aceeb7dd-a833-513a-82af-307e3d417848
@@ -1608,6 +1619,131 @@ table Measure
 			RETURN IF ( SELECTEDVALUE ( Sales[Product Category] ) = topC, "#B91C1C", "#6B7280" )
 		displayFolder: 7 Formatting
 		lineageTag: f35e2bc3-699a-575c-bca0-24854c8ceb38
+
+	measure 'Subtitle Tax Trend' =
+			
+			VAR base = "Tax due by month, Q1 " & SELECTEDVALUE ( 'Date'[Year] )
+			RETURN
+			    IF (
+			        ISBLANK ( [Tax Due PY] ),
+			        base,
+			        base & " · blue = Q1 " & SELECTEDVALUE ( 'Date'[Year] ) & ", dashed grey = Q1 " & SELECTEDVALUE ( 'Date'[Year] )-1
+			    )
+		displayFolder: 6 Titles
+		lineageTag: 4e0ab61d-fb9a-44c5-9a78-a7b40edfea0c
+
+	measure 'Current Period Label' =
+			VAR y = SELECTEDVALUE ( 'Date'[Year], MAX ( 'Date'[Year] ) )
+			RETURN "Q1 " & ( y )
+		displayFolder: 2 Comparisons
+		lineageTag: 0048347a-c4bc-4d16-8525-c250693b88fa
+
+	measure 'Subtitle Tax Category' =
+			
+			"Tax due by category, Q1 " & SELECTEDVALUE ( 'Date'[Year] ) & ", sorted"
+		displayFolder: 6 Titles
+		lineageTag: 175833ef-bd3e-4a5f-bdf9-7f2575a0e36c
+
+	measure 'Label Tax Category' =
+			
+			VAR v = [Total Tax Due]
+			VAR topC = CALCULATE ( [Top Tax Category], ALLSELECTED ( Sales[Product Category] ) )
+			VAR total = CALCULATE ( [Total Tax Due], ALLSELECTED ( Sales[Product Category] ) )
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        v = 0, "$0 (no line over $2,000)",
+			        SELECTEDVALUE ( Sales[Product Category] ) = topC,
+			            FORMAT ( v, "$#,0" ) & " · " & FORMAT ( DIVIDE ( v, total ), "0%" ),
+			        FORMAT ( v, "$#,0" )
+			    )
+		displayFolder: 7 Formatting
+		lineageTag: 9d3ff318-8fae-4347-becf-c87ea1d3b8a2
+
+	measure 'Label Color Top Tax Category' =
+			
+			VAR topC = CALCULATE ( [Top Tax Category], ALLSELECTED ( Sales[Product Category] ) )
+			RETURN IF ( SELECTEDVALUE ( Sales[Product Category] ) = topC, "#1D4ED8", "#374151" )
+		displayFolder: 7 Formatting
+		lineageTag: a6df6405-192f-40f6-a65c-b323def9acfd
+
+	measure 'Axis Max Tax Category' =
+			
+			MAXX ( ALLSELECTED ( Sales[Product Category] ), [Total Tax Due] ) * 1.5
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 48b70dd8-74c6-4a98-9470-dcb849ed5436
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Title Tax Table' =
+			
+			VAR m =
+			    ADDCOLUMNS (
+			        FILTER ( VALUES ( 'Date'[Month] ), [Total Tax Due] > 0 ),
+			        "@r", [Tax % of Revenue]
+			    )
+			VAR lo = MINX ( m, [@r] )
+			VAR hi = MAXX ( m, [@r] )
+			VAR overall = [Tax % of Revenue]
+			RETURN
+			    IF (
+			        hi - lo < 0.005,
+			        "Monthly tax schedule: the effective rate stayed at about " & FORMAT ( overall, "0.0%" ) & " of revenue",
+			        "Monthly tax schedule: the effective rate ranged from " & FORMAT ( lo, "0.0%" ) & " to "
+			            & FORMAT ( hi, "0.0%" ) & " of revenue"
+			    )
+		displayFolder: 6 Titles
+		lineageTag: 8147509e-f3d1-4ee0-a1ee-6cacb9f58176
+
+	measure 'Subtitle Tax Table' =
+			
+			"Tax due by month, Q1 " & SELECTEDVALUE ( 'Date'[Year] ) & " · highest month highlighted"
+		displayFolder: 6 Titles
+		lineageTag: 8d401adb-cc6d-44e1-b5fb-356b4d2b5abe
+
+	measure 'Tax Change Label' =
+			
+			VAR py = [Tax Due PY]
+			VAR chg = [Tax Due YoY %]
+			RETURN
+			    IF (
+			        NOT ISBLANK ( py ) && NOT ISBLANK ( [Total Tax Due] ),
+			        IF ( chg >= 0, "▲ ", "▼ " ) & FORMAT ( ABS ( chg ), "0.0%" )
+			    )
+		displayFolder: 7 Formatting
+		lineageTag: dfe29764-d8c1-4527-8c10-59be7918b3a0
+
+	measure 'Tax Note Taxable' =
+			
+			"• 5% on each order line worth more than $2,000. In Q1 " & SELECTEDVALUE ( 'Date'[Year] ) & ", "
+			    & [Taxable Lines] & " of " & [Fulfilled Lines] & " fulfilled lines ("
+			    & FORMAT ( [Taxable Line %], "0%" ) & ") were over the threshold."
+		lineageTag: 166211ea-e8c6-4878-9521-8c1bc156c9f1
+
+	measure 'Tax Note Billing' =
+			
+			VAR rev = [Total Revenue]
+			VAR tax = [Total Tax Due]
+			VAR bill = [Customer Billings]
+			RETURN
+			    "• Tax is added to the customer's bill, not deducted from revenue: "
+			        & FORMAT ( rev / 1000, "$#,0.0" ) & "K revenue + "
+			        & FORMAT ( tax / 1000, "$#,0.0" ) & "K tax = "
+			        & FORMAT ( bill / 1000, "$#,0.0" ) & "K billed."
+		lineageTag: f9c89c8a-5a8b-4b95-bd58-8e9c99bff97a
+
+	measure 'Tax Note Cancelled' =
+			
+			VAR n = [Total Cancelled Order]
+			VAR v = [Cancelled Value]
+			RETURN
+			    "• Cancelled lines carry no tax"
+			        & IF (
+			            n > 0,
+			            ": " & n & " lines worth " & FORMAT ( v / 1000, "$#,0.0" ) & "K were excluded.",
+			            "."
+			        )
+		lineageTag: 89752697-a8af-48fa-966b-6b14c0f7a4e4
 
 	partition Measure = m
 		mode: import

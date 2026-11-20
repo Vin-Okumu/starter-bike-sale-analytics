@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "6f7caaa19157fb1acbb8",
   "position": {
     "x": 20,
@@ -97,10 +97,10 @@
                       "Entity": "Measure"
                     }
                   },
-                  "Property": "Tax Due YoY %"
+                  "Property": "Tax Change Label"
                 }
               },
-              "queryRef": "Measure.Tax Due YoY %",
+              "queryRef": "Measure.Tax Change Label",
               "nativeQueryRef": "Change",
               "displayName": "Change"
             }
@@ -169,6 +169,13 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Right'"
                 }
               }
             }
@@ -401,36 +408,6 @@
             ],
             "metadata": "Measure.Tax Due PY"
           }
-        },
-        {
-          "properties": {
-            "backColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Measure"
-                        }
-                      },
-                      "Property": "Bg Top Tax Month"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "selector": {
-            "data": [
-              {
-                "dataViewWildcard": {
-                  "matchingOption": 1
-                }
-              }
-            ],
-            "metadata": "Measure.Tax Due YoY %"
-          }
         }
       ],
       "grid": [
@@ -491,6 +468,13 @@
                   "Value": "true"
                 }
               }
+            },
+            "label": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Q1 total'"
+                }
+              }
             }
           }
         }
@@ -515,7 +499,7 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "100D"
+                  "Value": "114.57858932083185D"
                 }
               }
             }
@@ -529,7 +513,7 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "90D"
+                  "Value": "145.3986127182203D"
                 }
               }
             }
@@ -543,7 +527,7 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "120D"
+                  "Value": "168.10933940774487D"
                 }
               }
             }
@@ -557,7 +541,7 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "130D"
+                  "Value": "103.73798218894689D"
                 }
               }
             }
@@ -571,17 +555,81 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "90D"
+                  "Value": "93.98862235115203D"
                 }
               }
             }
           },
           "selector": {
-            "metadata": "Measure.Tax Due YoY %"
+            "metadata": "Measure.Tax Change Label"
           }
         }
       ],
-      "columnFormatting": []
+      "columnFormatting": [
+        {
+          "properties": {
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1000D"
+                }
+              }
+            },
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "1L"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Measure.Total Revenue"
+          }
+        },
+        {
+          "properties": {
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "2L"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Measure.Tax % of Revenue"
+          }
+        },
+        {
+          "properties": {
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Right'"
+                }
+              }
+            },
+            "styleTotal": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "styleHeader": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Measure.Tax Change Label"
+          }
+        }
+      ]
     },
     "visualContainerObjects": {
       "dropShadow": [
@@ -703,8 +751,13 @@
             },
             "text": {
               "expr": {
-                "Literal": {
-                  "Value": "'Monthly tax schedule'"
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "Title Tax Table"
                 }
               }
             }
@@ -744,8 +797,121 @@
             }
           }
         }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "Subtitle Tax Table"
+                }
+              }
+            }
+          }
+        }
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "0a7c97f23a016748a82c",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Date"
+              }
+            },
+            "Property": "Month"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "7dc3d6627cc8c004dec4",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "Total Revenue"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "178ca9fb9abc6e128895",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "Total Tax Due"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "bf746b26980b28dec6bd",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "Tax % of Revenue"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "059d78492b88cd7ac7e7",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "Tax Due PY"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "39d2ae04d006e9040b52",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "Tax Change Label"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

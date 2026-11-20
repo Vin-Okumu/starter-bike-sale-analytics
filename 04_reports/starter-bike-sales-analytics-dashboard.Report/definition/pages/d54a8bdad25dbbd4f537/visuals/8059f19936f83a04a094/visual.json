@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "8059f19936f83a04a094",
   "position": {
     "x": 772,
@@ -21,19 +21,34 @@
                   {
                     "value": "How tax is calculated",
                     "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "14pt",
+                      "color": "#111827"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": {
+                      "propertyIdentifier": {
+                        "objectName": "values",
+                        "propertyName": "expr"
+                      },
+                      "selector": {
+                        "id": "Tax Note Taxable"
+                      }
+                    },
+                    "textStyle": {
                       "fontSize": "11pt",
-                      "color": "#111827",
-                      "fontWeight": "bold"
-                    }
-                  }
-                ]
-              },
-              {
-                "textRuns": [
-                  {
-                    "value": "• 5% on each order line worth more than $2,000.",
-                    "textStyle": {
-                      "fontSize": "9pt",
                       "color": "#374151"
                     }
                   }
@@ -42,9 +57,24 @@
               {
                 "textRuns": [
                   {
-                    "value": "• Tax is added to the customer's bill, so it is collected on top of revenue, not deducted from it.",
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": {
+                      "propertyIdentifier": {
+                        "objectName": "values",
+                        "propertyName": "expr"
+                      },
+                      "selector": {
+                        "id": "Tax Note Billing"
+                      }
+                    },
                     "textStyle": {
-                      "fontSize": "9pt",
+                      "fontSize": "11pt",
                       "color": "#374151"
                     }
                   }
@@ -53,15 +83,116 @@
               {
                 "textRuns": [
                   {
-                    "value": "• Cancelled lines carry no tax.",
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": {
+                      "propertyIdentifier": {
+                        "objectName": "values",
+                        "propertyName": "expr"
+                      },
+                      "selector": {
+                        "id": "Tax Note Cancelled"
+                      }
+                    },
                     "textStyle": {
-                      "fontSize": "9pt",
+                      "fontSize": "11pt",
                       "color": "#374151"
                     }
                   }
                 ]
               }
             ]
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "expr": {
+              "expr": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "Tax Note Taxable"
+                },
+                "Annotations": {
+                  "NaturalLanguage": {
+                    "version": 1,
+                    "kind": "NaturalLanguage",
+                    "annotation": {
+                      "name": "Tax Note Taxable"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "Tax Note Taxable"
+          }
+        },
+        {
+          "properties": {
+            "expr": {
+              "expr": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "Tax Note Billing"
+                },
+                "Annotations": {
+                  "NaturalLanguage": {
+                    "version": 1,
+                    "kind": "NaturalLanguage",
+                    "annotation": {
+                      "name": "Tax Note Billing"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "Tax Note Billing"
+          }
+        },
+        {
+          "properties": {
+            "expr": {
+              "expr": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "Tax Note Cancelled"
+                },
+                "Annotations": {
+                  "NaturalLanguage": {
+                    "version": 1,
+                    "kind": "NaturalLanguage",
+                    "annotation": {
+                      "name": "Tax Note Cancelled"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "Tax Note Cancelled"
           }
         }
       ]
