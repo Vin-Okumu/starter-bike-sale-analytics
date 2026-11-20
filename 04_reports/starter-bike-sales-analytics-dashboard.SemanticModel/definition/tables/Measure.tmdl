@@ -288,13 +288,6 @@ table Measure
 		displayFolder: 2 Comparisons
 		lineageTag: 9729e186-abde-5222-917d-7b5401e67237
 
-	measure 'Gross Profit YoY %' =
-			VAR py = [Gross Profit PY]
-			RETURN DIVIDE ( [Total Profit] - py, py )
-		formatString: 0.0%
-		displayFolder: 2 Comparisons
-		lineageTag: 2d1b9743-f2bd-5f99-9f29-57d6af2d4230
-
 	measure 'Gross Profit vs PY Label' =
 			VAR cur = [Total Profit]
 			VAR py = [Gross Profit PY]
@@ -322,13 +315,6 @@ table Measure
 		displayFolder: 2 Comparisons
 		lineageTag: 89111260-5185-5d0b-a8f2-1c9d942fdbfb
 
-	measure 'Quantity Sold YoY %' =
-			VAR py = [Quantity Sold PY]
-			RETURN DIVIDE ( [Quantity Sold] - py, py )
-		formatString: 0.0%
-		displayFolder: 2 Comparisons
-		lineageTag: d375433d-7391-5798-8236-3093ef41bb13
-
 	measure 'Quantity Sold vs PY Label' =
 			VAR cur = [Quantity Sold]
 			VAR py = [Quantity Sold PY]
@@ -355,13 +341,6 @@ table Measure
 		formatString: \$#,0
 		displayFolder: 2 Comparisons
 		lineageTag: 10b945dd-1aee-5174-8d64-246faac8c392
-
-	measure 'Cancelled Value YoY %' =
-			VAR py = [Cancelled Value PY]
-			RETURN DIVIDE ( [Cancelled Value] - py, py )
-		formatString: 0.0%
-		displayFolder: 2 Comparisons
-		lineageTag: 80fb9352-1fc3-5798-b576-df32ae6faae4
 
 	measure 'Cancelled Value vs PY Label' =
 			VAR cur = [Cancelled Value]
@@ -410,22 +389,10 @@ table Measure
 		displayFolder: 2 Comparisons
 		lineageTag: fa1ec4b3-5a66-5ff8-9bf6-a29632502607
 
-	/// Neutral metric: always grey.
-	measure 'Tax Due vs PY Color' = "#4B5563"
-		displayFolder: 7 Formatting
-		lineageTag: a03e3464-d848-58ff-ba61-b6cfc5bcc147
-
 	measure 'Customer Billings PY' = CALCULATE ( [Customer Billings], SAMEPERIODLASTYEAR ( 'Date'[Date] ) )
 		formatString: \$#,0
 		displayFolder: 2 Comparisons
 		lineageTag: 2dbf5ee8-17c1-55a7-afb1-103cd8be6701
-
-	measure 'Customer Billings YoY %' =
-			VAR py = [Customer Billings PY]
-			RETURN DIVIDE ( [Customer Billings] - py, py )
-		formatString: 0.0%
-		displayFolder: 2 Comparisons
-		lineageTag: abf03564-3009-518c-9762-81d91b857a66
 
 	measure 'Customer Billings vs PY Label' =
 			VAR cur = [Customer Billings]
@@ -454,13 +421,6 @@ table Measure
 		displayFolder: 2 Comparisons
 		lineageTag: 8918f729-413d-586a-9d58-9fc4ef9ee16b
 
-	measure 'Gross Margin Change pts' =
-			VAR py = [Gross Margin PY]
-			RETURN IF ( NOT ISBLANK ( py ), ( [Gross Margin %] - py ) * 100 )
-		formatString: +0.0;-0.0;0.0
-		displayFolder: 2 Comparisons
-		lineageTag: 2e13aee8-1541-5675-965c-514441c831e6
-
 	measure 'Gross Margin vs PY Label' =
 			VAR cur = [Gross Margin %]
 			VAR py = [Gross Margin PY]
@@ -487,13 +447,6 @@ table Measure
 		formatString: 0.0%
 		displayFolder: 2 Comparisons
 		lineageTag: 45fcce3f-7706-5c8e-bdeb-119ee5d99924
-
-	measure 'Shipped Lines Change pts' =
-			VAR py = [Shipped Lines PY]
-			RETURN IF ( NOT ISBLANK ( py ), ( [Shipped Line %] - py ) * 100 )
-		formatString: +0.0;-0.0;0.0
-		displayFolder: 2 Comparisons
-		lineageTag: 4243a2de-06e5-5db5-aa0c-af89d261c980
 
 	measure 'Shipped Lines vs PY Label' =
 			VAR cur = [Shipped Line %]
@@ -522,13 +475,6 @@ table Measure
 		displayFolder: 2 Comparisons
 		lineageTag: 05fb5d1d-2bc8-597d-a4bf-ebb0d03471e5
 
-	measure 'Processing Lines Change pts' =
-			VAR py = [Processing Lines PY]
-			RETURN IF ( NOT ISBLANK ( py ), ( [Processing Line %] - py ) * 100 )
-		formatString: +0.0;-0.0;0.0
-		displayFolder: 2 Comparisons
-		lineageTag: c544f750-7b3a-5c5a-a0d2-72cf9eafd17d
-
 	measure 'Processing Lines vs PY Label' =
 			VAR cur = [Processing Line %]
 			VAR py = [Processing Lines PY]
@@ -555,13 +501,6 @@ table Measure
 		formatString: 0.0%
 		displayFolder: 2 Comparisons
 		lineageTag: 121d6b12-a5f2-50dd-981a-c1fbf5dbfb3b
-
-	measure 'Cancelled Lines Change pts' =
-			VAR py = [Cancelled Lines PY]
-			RETURN IF ( NOT ISBLANK ( py ), ( [Cancelled Line %] - py ) * 100 )
-		formatString: +0.0;-0.0;0.0
-		displayFolder: 2 Comparisons
-		lineageTag: 8ab2df99-6dbe-5cf1-9922-4c7055d4eb9d
 
 	measure 'Cancelled Lines vs PY Label' =
 			VAR cur = [Cancelled Line %]
@@ -590,13 +529,6 @@ table Measure
 		displayFolder: 2 Comparisons
 		lineageTag: 8348bda5-8fbf-57a4-923e-13b8f8e95fe6
 
-	measure 'Tax Rate Change pts' =
-			VAR py = [Tax Rate PY]
-			RETURN IF ( NOT ISBLANK ( py ), ( [Tax % of Revenue] - py ) * 100 )
-		formatString: +0.0;-0.0;0.0
-		displayFolder: 2 Comparisons
-		lineageTag: 61d9712c-edc4-553f-8fa7-7b94e8fe4a9e
-
 	measure 'Tax Rate vs PY Label' =
 			VAR cur = [Tax % of Revenue]
 			VAR py = [Tax Rate PY]
@@ -610,22 +542,10 @@ table Measure
 		displayFolder: 2 Comparisons
 		lineageTag: a11960d4-9a7d-5715-a422-5d0006d81193
 
-	/// Neutral metric: always grey.
-	measure 'Tax Rate vs PY Color' = "#4B5563"
-		displayFolder: 7 Formatting
-		lineageTag: 4fa93356-4015-5e3a-93cf-f9d126f5edc1
-
 	measure 'Taxable Lines PY' = CALCULATE ( [Taxable Line %], SAMEPERIODLASTYEAR ( 'Date'[Date] ) )
 		formatString: 0.0%
 		displayFolder: 2 Comparisons
 		lineageTag: bcefdb3d-c720-54c4-94b8-a49411bcb382
-
-	measure 'Taxable Lines Change pts' =
-			VAR py = [Taxable Lines PY]
-			RETURN IF ( NOT ISBLANK ( py ), ( [Taxable Line %] - py ) * 100 )
-		formatString: +0.0;-0.0;0.0
-		displayFolder: 2 Comparisons
-		lineageTag: bcb4194c-dc0b-597b-8c75-147781ff1e1a
 
 	measure 'Taxable Lines vs PY Label' =
 			VAR cur = [Taxable Line %]
@@ -640,18 +560,6 @@ table Measure
 		displayFolder: 2 Comparisons
 		lineageTag: a84aea29-0fa4-57a4-92e6-34e4e0e6fed1
 
-	/// Neutral metric: always grey.
-	measure 'Taxable Lines vs PY Color' = "#4B5563"
-		displayFolder: 7 Formatting
-		lineageTag: da95de91-fa2f-54d8-a6ac-750e85d22df2
-
-	measure 'Top Category Share Change pts' =
-			VAR py = [Top Category Share PY]
-			RETURN IF ( NOT ISBLANK ( py ), ( [Top Category Share] - py ) * 100 )
-		formatString: +0.0;-0.0;0.0
-		displayFolder: 2 Comparisons
-		lineageTag: 2cefbb84-fcb8-5afe-a7f3-42397c471f30
-
 	measure 'Top Category Share vs PY Label' =
 			VAR cur = [Top Category Share]
 			VAR py = [Top Category Share PY]
@@ -664,18 +572,6 @@ table Measure
 			    )
 		displayFolder: 2 Comparisons
 		lineageTag: 0a4b9fe8-8dca-5db4-8f8f-f0a72f2a1a91
-
-	/// Neutral metric: always grey.
-	measure 'Top Category Share vs PY Color' = "#4B5563"
-		displayFolder: 7 Formatting
-		lineageTag: 464443b9-51e6-5d98-b788-a14301754889
-
-	measure 'Top Cancel Category Rate Change pts' =
-			VAR py = [Top Cancel Category Rate PY]
-			RETURN IF ( NOT ISBLANK ( py ), ( [Top Cancel Category Rate] - py ) * 100 )
-		formatString: +0.0;-0.0;0.0
-		displayFolder: 2 Comparisons
-		lineageTag: db09f014-d13f-522d-89c8-28c81a44e0c7
 
 	measure 'Top Cancel Category Rate vs PY Label' =
 			VAR cur = [Top Cancel Category Rate]
@@ -706,19 +602,6 @@ table Measure
 		displayFolder: 2 Comparisons
 		lineageTag: 6c047e8d-9098-5f88-a927-bc4b14bcd15e
 
-	measure 'Top Model Revenue vs PY Label' =
-			VAR cur = [Top Model Revenue]
-			VAR py = [Top Model Revenue PY]
-			VAR chg = DIVIDE ( cur - py, py )
-			RETURN
-			    IF (
-			        ISBLANK ( py ),
-			        "No prior-year data",
-			        IF ( chg >= 0, "▲ ", "▼ " ) & FORMAT ( ABS ( chg ), "0.0%" ) & " vs " & [Prior Period Label] & " (" & IF ( ABS ( py ) >= 1000, FORMAT ( py / 1000, "$#,0.0" ) & "K", FORMAT ( py, "$#,0" ) ) & ")"
-			    )
-		displayFolder: 2 Comparisons
-		lineageTag: 14df7b51-c0fd-565a-a046-d595bfab7b74
-
 	measure 'Top Model Revenue vs PY Color' =
 			VAR cur = [Top Model Revenue]
 			VAR py = [Top Model Revenue PY]
@@ -734,24 +617,6 @@ table Measure
 		formatString: 0.0%
 		displayFolder: 2 Comparisons
 		lineageTag: e6e5ed82-a83b-55a7-847d-7391ba4556ef
-
-	measure 'Top Tax Month Value vs PY Label' =
-			VAR cur = [Top Tax Month Value]
-			VAR py = [Top Tax Month Value PY]
-			VAR chg = DIVIDE ( cur - py, py )
-			RETURN
-			    IF (
-			        ISBLANK ( py ),
-			        "No prior-year data",
-			        IF ( chg >= 0, "▲ ", "▼ " ) & FORMAT ( ABS ( chg ), "0.0%" ) & " vs " & [Prior Period Label] & " (" & IF ( ABS ( py ) >= 1000, FORMAT ( py / 1000, "$#,0.0" ) & "K", FORMAT ( py, "$#,0" ) ) & ")"
-			    )
-		displayFolder: 2 Comparisons
-		lineageTag: 16bad5df-6cfd-5e8c-be46-c33596243d09
-
-	/// Neutral metric: always grey.
-	measure 'Top Tax Month Value vs PY Color' = "#4B5563"
-		displayFolder: 7 Formatting
-		lineageTag: ac499c1f-570d-5c40-95ce-462708cc767a
 
 	measure 'PayPal vs Card Label' =
 			VAR chg = [PayPal Premium %]
@@ -1125,18 +990,6 @@ table Measure
 		displayFolder: 7 Formatting
 		lineageTag: 6f7bdd22-4a00-51bc-823c-ca8db42ba2eb
 
-	/// Same as [Total Revenue]; used for the data-bar column in tables.
-	measure 'Revenue Bar' = [Total Revenue]
-		formatString: \$#,0
-		displayFolder: 7 Formatting
-		lineageTag: 2b05482e-d786-5e77-9505-27cfa3ed74d9
-
-	/// Same as [Cancelled Value]; used for the data-bar column in tables.
-	measure 'Cancelled Value Bar' = [Cancelled Value]
-		formatString: \$#,0
-		displayFolder: 7 Formatting
-		lineageTag: 470b54ed-4ee0-5a39-916a-b78814cd670e
-
 	/// Row background: top revenue category light blue.
 	measure 'Bg Top Category' =
 			
@@ -1324,6 +1177,7 @@ table Measure
 			RETURN
 			    mx * 1.6
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		displayFolder: 7 Formatting
 		lineageTag: d60aedae-d0eb-44f2-9b00-84f69ee6536c
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
@@ -1388,6 +1242,7 @@ table Measure
 	measure 'Avg Margin Line' =
 			
 			CALCULATE ( [Gross Margin %], ALLSELECTED ( Sales[Product Category] ) )
+		displayFolder: 7 Formatting
 		lineageTag: 217e6d0c-6a82-4f84-9c8e-4146041fd15c
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -1396,6 +1251,7 @@ table Measure
 			
 			MAXX ( ALLSELECTED ( Sales[Product Category] ), [Total Revenue] ) * 1.1
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		displayFolder: 7 Formatting
 		lineageTag: 572c3a06-5d73-40ec-987e-b96aecb2397d
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
@@ -1404,6 +1260,7 @@ table Measure
 			
 			VAR lo = MINX ( ALLSELECTED ( Sales[Product Category] ), [Gross Margin %] )
 			RETURN FLOOR ( lo - 0.03, 0.05 )
+		displayFolder: 7 Formatting
 		lineageTag: 3e884b36-d292-475f-96aa-366b6095b728
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -1412,6 +1269,7 @@ table Measure
 			
 			VAR hi = MAXX ( ALLSELECTED ( Sales[Product Category] ), [Gross Margin %] )
 			RETURN CEILING ( hi + 0.03, 0.05 )
+		displayFolder: 7 Formatting
 		lineageTag: 6b8494e3-88f1-47b2-afaa-0ecc9c8e7433
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -1429,21 +1287,11 @@ table Measure
 		displayFolder: 7 Formatting
 		lineageTag: ab377c24-7b69-48dc-8ead-f4118e1c9bec
 
-	measure 'Top 10 Model Revenue' =
-			
-			VAR r =
-			    RANKX ( ALLSELECTED ( Sales[Product Name] ), [Total Revenue], , DESC, Dense )
-			RETURN IF ( r <= 10, [Total Revenue] )
-		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
-		displayFolder: 2 Comparisons
-		lineageTag: 420be2f2-bf6d-4944-9997-56439ac92347
-
-		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
-
 	measure 'Axis Max Top Models' =
 			
 			MAXX ( ALLSELECTED ( Sales[Product Name] ), [Total Revenue] ) * 1.2
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		displayFolder: 7 Formatting
 		lineageTag: 80150b67-8ab4-4cd4-9c13-25951e793060
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
@@ -1495,6 +1343,7 @@ table Measure
 			
 			MAXX ( ALLSELECTED ( Sales[Payment Method] ), [Avg Line Value] ) * 1.4
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		displayFolder: 7 Formatting
 		lineageTag: eb0f9185-47ef-461a-bb03-c6838d64677d
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
@@ -1522,6 +1371,7 @@ table Measure
 			            & " earns more (" & fmt1 & " vs " & fmt2 & ").",
 			        usedName & " is used on " & FORMAT ( usedShare, "0%" ) & " of lines and earns the most (" & fmt1 & " vs " & fmt2 & ")."
 			    )
+		displayFolder: 6 Titles
 		lineageTag: 6c0f3838-7a60-43a9-bd19-8a2e8f1e181d
 
 	/// Subtitle for the order-status bar; names the colours because the legend is off.
@@ -1671,6 +1521,7 @@ table Measure
 			
 			MAXX ( ALLSELECTED ( Sales[Product Category] ), [Total Tax Due] ) * 1.5
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		displayFolder: 7 Formatting
 		lineageTag: 48b70dd8-74c6-4a98-9470-dcb849ed5436
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
@@ -1718,6 +1569,7 @@ table Measure
 			"• 5% on each order line worth more than $2,000. In Q1 " & SELECTEDVALUE ( 'Date'[Year] ) & ", "
 			    & [Taxable Lines] & " of " & [Fulfilled Lines] & " fulfilled lines ("
 			    & FORMAT ( [Taxable Line %], "0%" ) & ") were over the threshold."
+		displayFolder: 6 Titles
 		lineageTag: 166211ea-e8c6-4878-9521-8c1bc156c9f1
 
 	measure 'Tax Note Billing' =
@@ -1730,6 +1582,7 @@ table Measure
 			        & FORMAT ( rev / 1000, "$#,0.0" ) & "K revenue + "
 			        & FORMAT ( tax / 1000, "$#,0.0" ) & "K tax = "
 			        & FORMAT ( bill / 1000, "$#,0.0" ) & "K billed."
+		displayFolder: 6 Titles
 		lineageTag: f9c89c8a-5a8b-4b95-bd58-8e9c99bff97a
 
 	measure 'Tax Note Cancelled' =
@@ -1743,6 +1596,7 @@ table Measure
 			            ": " & n & " lines worth " & FORMAT ( v / 1000, "$#,0.0" ) & "K were excluded.",
 			            "."
 			        )
+		displayFolder: 6 Titles
 		lineageTag: 89752697-a8af-48fa-966b-6b14c0f7a4e4
 
 	/// Font colour for the Change column in the monthly tax table: green for an increase, red for a decrease.
@@ -1759,6 +1613,21 @@ table Measure
 			    )
 		displayFolder: 7 Formatting
 		lineageTag: c429f53e-f8d4-56b6-82b2-89b6ff93e865
+
+	/// Overview bar labels: "$96.3K · 99% of value lost" on the category losing most to cancellations, value only on the rest.
+	measure 'Label Cancelled Category' =
+			VAR v = [Cancelled Value]
+			VAR topC = CALCULATE ( [Top Cancel Category], ALLSELECTED ( Sales[Product Category] ) )
+			VAR total = CALCULATE ( [Cancelled Value], ALLSELECTED ( Sales[Product Category] ) )
+			VAR txt = IF ( v >= 1000, FORMAT ( v / 1000, "$#,0.0" ) & "K", FORMAT ( v, "$#,0" ) )
+			RETURN
+			    IF (
+			        SELECTEDVALUE ( Sales[Product Category] ) = topC,
+			        txt & " · " & FORMAT ( DIVIDE ( v, total ), "0%" ) & " of value lost",
+			        txt
+			    )
+		displayFolder: 7 Formatting
+		lineageTag: d722586a-5884-5728-9616-131a9d42e51d
 
 	partition Measure = m
 		mode: import

@@ -5,7 +5,7 @@ Business Requirements Document <br>
 </h1>
 
 <p align = "center">
-<img src = "../08_Images/Cover/Project_Cover.png" width = "1000" height = "350">
+<img src = "../04_reports/figures/Cover/Project_Cover.png" width = "1000">
 </p>
 
 
@@ -131,9 +131,20 @@ Regarding Tax:
 
 ### Dashboard Pages
 
-    Page                    |   Purpose
-    ------------------------|----------------------------------------------------------------------
-    Executive Overview      |	High-level KPIs and business performance
-    Product Performance     |	Revenue, trends, categories, and products
-    Operational Performance |	Payment methods, order status, fulfillment metrics
-    Tax Analytics           |	Taxable sales, tax collected, effective tax rate, customer payments
+| Page | User | Purpose |
+|---|---|---|
+| Executive Overview | Owner / GM | Growth vs prior year, revenue drivers, money lost to cancellations, next actions |
+| Products & Margins | Owner / buyer | Revenue vs margin by category, top models, payment method comparison |
+| Orders & Cancellations | Operations manager | Order status by category, cancellation trend, cancelled models, value still processing |
+| Tax | Bookkeeper | Tax due vs prior year, effective rate, taxable lines, tax by category and month |
+
+### Delivery status
+
+| Requirement area | Status | Where |
+|---|---|---|
+| Sales analytics (revenue, trend, category, product, average value) | Delivered | Executive Overview, Products & Margins |
+| Payment analytics (revenue, average line value, usage by method) | Delivered | Products & Margins; Payment method slicer on Overview, Orders and Tax |
+| Order analytics (status distribution, completion and cancellation rates, pending value, value by status) | Delivered | Orders & Cancellations |
+| Tax analytics (tax collected, taxable lines, effective rate, by category and month) | Delivered | Tax |
+| Customer analytics (highest-value customers, purchase frequency, demographics) | Not delivered | The data has no demographics, and Customer and Order IDs don't identify individual purchases; see the [data audit](Data_audit_report.md) |
+| Average tax per taxable order | Not shown | Effective rate and taxable-line share answer the same need more directly |
