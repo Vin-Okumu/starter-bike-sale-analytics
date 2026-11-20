@@ -655,7 +655,7 @@ table Measure
 			    SWITCH (
 			        TRUE (),
 			        ISBLANK ( py ), bestMonth & " was the best month in 2022 at " & IF ( ABS ( bestValue ) >= 1000, FORMAT ( bestValue / 1000, "$#,0.0" ) & "K", FORMAT ( bestValue, "$#,0" ) ) ,
-			        beatAll, "Revenue beat " & [Prior Period Label] & " in every month; " & bestMonth & " peaked at " & IF ( ABS ( bestValue ) >= 1000, FORMAT ( bestValue / 1000, "$#,0.0" ) & "K", FORMAT ( bestValue, "$#,0" ) ),
+			        beatAll, [Current Period Label] & " revenue beat " & [Prior Period Label] & " in every month; " & bestMonth & " peaked at " & IF ( ABS ( bestValue ) >= 1000, FORMAT ( bestValue / 1000, "$#,0.0" ) & "K", FORMAT ( bestValue, "$#,0" ) ),
 			        "Revenue " & IF ( chg >= 0, "up ", "down " ) & FORMAT ( ABS ( chg ), "0.0%" ) & " vs " & [Prior Period Label] & "; " & bestMonth & " was the best month at " & IF ( ABS ( bestValue ) >= 1000, FORMAT ( bestValue / 1000, "$#,0.0" ) & "K", FORMAT ( bestValue, "$#,0" ) )
 			    )
 		displayFolder: 6 Titles
