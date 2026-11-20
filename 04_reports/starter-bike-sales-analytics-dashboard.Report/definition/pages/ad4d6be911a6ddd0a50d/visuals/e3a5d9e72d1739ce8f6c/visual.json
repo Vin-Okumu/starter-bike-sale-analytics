@@ -10,7 +10,7 @@
     "tabOrder": 24000
   },
   "visual": {
-    "visualType": "hundredPercentStackedBarChart",
+    "visualType": "barChart",
     "query": {
       "queryState": {
         "Category": {
@@ -43,59 +43,12 @@
                       "Entity": "Measure"
                     }
                   },
-                  "Property": "Cancelled Line %"
-                }
-              },
-              "queryRef": "Measure.Cancelled Line %",
-              "nativeQueryRef": "Cancelled Line %"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Measure"
-                    }
-                  },
                   "Property": "Order Lines"
                 }
               },
               "queryRef": "Measure.Order Lines",
-              "nativeQueryRef": "Order Lines"
-            }
-          ]
-        },
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Measure"
-                    }
-                  },
-                  "Property": "Total Shipped Order"
-                }
-              },
-              "queryRef": "Measure.Total Shipped Order",
-              "nativeQueryRef": "Shipped",
-              "displayName": "Shipped"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Measure"
-                    }
-                  },
-                  "Property": "Total Orders Under Process"
-                }
-              },
-              "queryRef": "Measure.Total Orders Under Process",
-              "nativeQueryRef": "Processing",
-              "displayName": "Processing"
+              "nativeQueryRef": "Order lines",
+              "displayName": "Order lines"
             },
             {
               "field": {
@@ -109,8 +62,72 @@
                 }
               },
               "queryRef": "Measure.Total Cancelled Order",
+              "nativeQueryRef": "Lines cancelled",
+              "displayName": "Lines cancelled"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "Shipped Line %"
+                }
+              },
+              "queryRef": "Measure.Shipped Line %",
+              "nativeQueryRef": "Shipped",
+              "displayName": "Shipped"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "Processing Line %"
+                }
+              },
+              "queryRef": "Measure.Processing Line %",
+              "nativeQueryRef": "Processing",
+              "displayName": "Processing"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "Cancelled Line %"
+                }
+              },
+              "queryRef": "Measure.Cancelled Line %",
               "nativeQueryRef": "Cancelled",
               "displayName": "Cancelled"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "Label Spacer"
+                }
+              },
+              "queryRef": "Measure.Label Spacer",
+              "nativeQueryRef": " ",
+              "displayName": " "
             }
           ]
         }
@@ -125,7 +142,7 @@
                     "Entity": "Measure"
                   }
                 },
-                "Property": "Cancelled Line %"
+                "Property": "Label Spacer"
               }
             },
             "direction": "Descending"
@@ -150,7 +167,7 @@
             }
           },
           "selector": {
-            "metadata": "Measure.Total Shipped Order"
+            "metadata": "Measure.Shipped Line %"
           }
         },
         {
@@ -168,7 +185,7 @@
             }
           },
           "selector": {
-            "metadata": "Measure.Total Orders Under Process"
+            "metadata": "Measure.Processing Line %"
           }
         },
         {
@@ -186,7 +203,25 @@
             }
           },
           "selector": {
-            "metadata": "Measure.Total Cancelled Order"
+            "metadata": "Measure.Cancelled Line %"
+          }
+        },
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Measure.Label Spacer"
           }
         }
       ],
@@ -200,6 +235,20 @@
                 }
               }
             },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            },
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "0L"
+                }
+              }
+            },
             "color": {
               "solid": {
                 "color": {
@@ -208,13 +257,6 @@
                       "Value": "'#FFFFFF'"
                     }
                   }
-                }
-              }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "8D"
                 }
               }
             }
@@ -235,7 +277,7 @@
             }
           },
           "selector": {
-            "metadata": "Measure.Total Shipped Order"
+            "metadata": "Measure.Shipped Line %"
           }
         },
         {
@@ -253,7 +295,7 @@
             }
           },
           "selector": {
-            "metadata": "Measure.Total Orders Under Process"
+            "metadata": "Measure.Processing Line %"
           }
         },
         {
@@ -271,7 +313,92 @@
             }
           },
           "selector": {
-            "metadata": "Measure.Total Cancelled Order"
+            "metadata": "Measure.Cancelled Line %"
+          }
+        },
+        {
+          "properties": {
+            "labelPosition": {
+              "expr": {
+                "Literal": {
+                  "Value": "'InsideBase'"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Measure.Label Spacer"
+          }
+        },
+        {
+          "properties": {
+            "dynamicLabelValue": {
+              "expr": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "Label Line Count"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "Measure.Label Spacer",
+            "highlightMatching": 1
+          }
+        },
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Measure"
+                        }
+                      },
+                      "Property": "Label Color Line Count"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "Measure.Label Spacer"
           }
         }
       ],
@@ -296,6 +423,20 @@
               "expr": {
                 "Literal": {
                   "Value": "false"
+                }
+              }
+            },
+            "start": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "end": {
+              "expr": {
+                "Literal": {
+                  "Value": "1.22D"
                 }
               }
             }
@@ -344,38 +485,6 @@
         {
           "properties": {
             "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "position": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Top'"
-                }
-              }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "8D"
-                }
-              }
-            },
-            "labelColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#4B5563'"
-                    }
-                  }
-                }
-              }
-            },
-            "showTitle": {
               "expr": {
                 "Literal": {
                   "Value": "false"

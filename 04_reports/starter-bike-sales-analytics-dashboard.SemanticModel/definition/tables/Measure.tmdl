@@ -1513,10 +1513,10 @@ table Measure
 			    )
 		lineageTag: 6c0f3838-7a60-43a9-bd19-8a2e8f1e181d
 
+	/// Subtitle for the order-status bar; names the colours because the legend is off.
 	measure 'Subtitle Order Status' =
-			
 			"Share of order lines by status, Q1 " & SELECTEDVALUE ( 'Date'[Year] )
-			    & ", worst first · hover a bar for line counts"
+			    & ", worst first · dark grey = shipped, light grey = processing, red = cancelled"
 		displayFolder: 6 Titles
 		lineageTag: 0857115a-b614-4068-b29f-c6c09480cd29
 
@@ -1588,6 +1588,26 @@ table Measure
 			        & " · " & FORMAT ( DIVIDE ( v, [Order Value] ), "0%" )
 		displayFolder: 7 Formatting
 		lineageTag: 9526454f-e9ab-4aad-91cf-2b9a55fc736b
+
+	/// Invisible 4th segment on the order-status bar; carries the line-count label. The tiny sort key (cancelled lines, then order lines) is too small to see but lets the chart sort Road Bikes first.
+	measure 'Label Spacer' =
+			VAR sortKey = [Total Cancelled Order] * 1000 + [Order Lines]
+			RETURN
+			    IF ( NOT ISBLANK ( [Order Lines] ), 0.22 + sortKey / 100000000 )
+		displayFolder: 7 Formatting
+		lineageTag: 3fc954f5-555c-5168-a493-533ce1deeb75
+
+	/// Label text shown after each order-status bar.
+	measure 'Label Line Count' = [Order Lines] & IF ( [Order Lines] = 1, " line", " lines" )
+		displayFolder: 7 Formatting
+		lineageTag: c77071ce-61c8-5c2f-921e-c64e53c89188
+
+	/// Line-count label colour: red for the category losing most to cancellations.
+	measure 'Label Color Line Count' =
+			VAR topC = CALCULATE ( [Top Cancel Category], ALLSELECTED ( Sales[Product Category] ) )
+			RETURN IF ( SELECTEDVALUE ( Sales[Product Category] ) = topC, "#B91C1C", "#6B7280" )
+		displayFolder: 7 Formatting
+		lineageTag: f35e2bc3-699a-575c-bca0-24854c8ceb38
 
 	partition Measure = m
 		mode: import

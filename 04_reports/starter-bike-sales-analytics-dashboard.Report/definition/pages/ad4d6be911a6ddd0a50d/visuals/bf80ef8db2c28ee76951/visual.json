@@ -46,8 +46,8 @@
                 }
               },
               "queryRef": "Measure.Cancelled Lines PY",
-              "nativeQueryRef": "Prior year",
-              "displayName": "Prior year"
+              "nativeQueryRef": "Actual prior year",
+              "displayName": "Actual prior year"
             },
             {
               "field": {
@@ -61,8 +61,8 @@
                 }
               },
               "queryRef": "Measure.Cancelled Line %",
-              "nativeQueryRef": "Selected year",
-              "displayName": "Selected year"
+              "nativeQueryRef": "Actual selected year",
+              "displayName": "Actual selected year"
             }
           ]
         }
@@ -211,7 +211,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#374151'"
+                      "Value": "'#1D4ED8'"
                     }
                   }
                 }
@@ -325,7 +325,7 @@
             "end": {
               "expr": {
                 "Literal": {
-                  "Value": "0.15D"
+                  "Value": "0.2D"
                 }
               }
             }

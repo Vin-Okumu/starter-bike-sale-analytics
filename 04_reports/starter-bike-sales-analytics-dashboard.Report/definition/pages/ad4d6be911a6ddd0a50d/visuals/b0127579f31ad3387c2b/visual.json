@@ -72,7 +72,8 @@
                 }
               },
               "queryRef": "Measure.Cancelled Bar Label",
-              "nativeQueryRef": "Cancelled Bar Label"
+              "nativeQueryRef": "Order value lost",
+              "displayName": "Order value lost"
             },
             {
               "field": {
@@ -102,7 +103,7 @@
                     "Entity": "Measure"
                   }
                 },
-                "Property": "Cancelled Bar Label"
+                "Property": "Cancelled Share of Loss"
               }
             },
             "direction": "Descending"
@@ -426,7 +427,7 @@
             "rowPadding": {
               "expr": {
                 "Literal": {
-                  "Value": "3D"
+                  "Value": "1D"
                 }
               }
             },
@@ -463,7 +464,7 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "150D"
+                  "Value": "140D"
                 }
               }
             }
@@ -477,7 +478,7 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "90D"
+                  "Value": "95D"
                 }
               }
             }
@@ -491,7 +492,7 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "90D"
+                  "Value": "85D"
                 }
               }
             }
@@ -505,7 +506,21 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "90D"
+                  "Value": "291.2300564930223D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Measure.Cancelled Bar Label"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "85D"
                 }
               }
             }
@@ -718,6 +733,24 @@
                     }
                   },
                   "Property": "Subtitle Cancelled Models"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#4B5563'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
                 }
               }
             }
