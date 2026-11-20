@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "Date.Month",
-              "nativeQueryRef": "Month"
+              "nativeQueryRef": "Month",
+              "displayName": "Month"
             },
             {
               "field": {
@@ -270,57 +271,11 @@
                 }
               }
             ],
-            "metadata": "Date.Month"
+            "metadata": "Measure.Total Tax Due"
           }
         },
         {
           "properties": {
-            "backColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Measure"
-                        }
-                      },
-                      "Property": "Bg Top Tax Month"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "selector": {
-            "data": [
-              {
-                "dataViewWildcard": {
-                  "matchingOption": 1
-                }
-              }
-            ],
-            "metadata": "Measure.Total Revenue"
-          }
-        },
-        {
-          "properties": {
-            "backColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Measure"
-                        }
-                      },
-                      "Property": "Bg Top Tax Month"
-                    }
-                  }
-                }
-              }
-            },
             "fontColor": {
               "solid": {
                 "color": {
@@ -331,7 +286,7 @@
                           "Entity": "Measure"
                         }
                       },
-                      "Property": "Text Top Tax Month"
+                      "Property": "Tax Change Color"
                     }
                   }
                 }
@@ -342,71 +297,11 @@
             "data": [
               {
                 "dataViewWildcard": {
-                  "matchingOption": 1
+                  "matchingOption": 0
                 }
               }
             ],
-            "metadata": "Measure.Total Tax Due"
-          }
-        },
-        {
-          "properties": {
-            "backColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Measure"
-                        }
-                      },
-                      "Property": "Bg Top Tax Month"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "selector": {
-            "data": [
-              {
-                "dataViewWildcard": {
-                  "matchingOption": 1
-                }
-              }
-            ],
-            "metadata": "Measure.Tax % of Revenue"
-          }
-        },
-        {
-          "properties": {
-            "backColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Measure"
-                        }
-                      },
-                      "Property": "Bg Top Tax Month"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "selector": {
-            "data": [
-              {
-                "dataViewWildcard": {
-                  "matchingOption": 1
-                }
-              }
-            ],
-            "metadata": "Measure.Tax Due PY"
+            "metadata": "Measure.Tax Change Label"
           }
         }
       ],
@@ -441,7 +336,7 @@
             "rowPadding": {
               "expr": {
                 "Literal": {
-                  "Value": "3D"
+                  "Value": "4D"
                 }
               }
             },
@@ -485,7 +380,7 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "90D"
+                  "Value": "110D"
                 }
               }
             }
@@ -499,7 +394,7 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "114.57858932083185D"
+                  "Value": "110D"
                 }
               }
             }
@@ -513,7 +408,7 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "145.3986127182203D"
+                  "Value": "110D"
                 }
               }
             }
@@ -527,7 +422,7 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "168.10933940774487D"
+                  "Value": "130D"
                 }
               }
             }
@@ -541,7 +436,7 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "103.73798218894689D"
+                  "Value": "140D"
                 }
               }
             }
@@ -555,7 +450,7 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "93.98862235115203D"
+                  "Value": "100D"
                 }
               }
             }
@@ -627,6 +522,34 @@
           },
           "selector": {
             "metadata": "Measure.Tax Change Label"
+          }
+        },
+        {
+          "properties": {
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Left'"
+                }
+              }
+            },
+            "styleHeader": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "styleTotal": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Date.Month"
           }
         }
       ]
@@ -817,6 +740,24 @@
                     }
                   },
                   "Property": "Subtitle Tax Table"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#4B5563'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
                 }
               }
             }

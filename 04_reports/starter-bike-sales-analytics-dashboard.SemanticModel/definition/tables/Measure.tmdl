@@ -1745,6 +1745,21 @@ table Measure
 			        )
 		lineageTag: 89752697-a8af-48fa-966b-6b14c0f7a4e4
 
+	/// Font colour for the Change column in the monthly tax table: green for an increase, red for a decrease.
+	measure 'Tax Change Color' =
+			VAR py = [Tax Due PY]
+			VAR chg = [Tax Due YoY %]
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( py ) || ISBLANK ( [Total Tax Due] ), "#374151",
+			        chg > 0, "#15803D",
+			        chg < 0, "#B91C1C",
+			        "#374151"
+			    )
+		displayFolder: 7 Formatting
+		lineageTag: c429f53e-f8d4-56b6-82b2-89b6ff93e865
+
 	partition Measure = m
 		mode: import
 		source =
